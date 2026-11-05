@@ -1,0 +1,1116 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta property="og:title" content="Priscila dos Santos · Senior Product Manager">
+<meta property="og:description" content="AI, B2B SaaS & Fintech. I turn noise into signal.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#090B12">
+<style>body{margin:0}img{max-width:100%}</style>
+<title>Priscila dos Santos</title>
+<meta name="description" content="Priscila dos Santos, Senior Product Manager in AI, B2B SaaS and Fintech.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=Instrument+Serif:ital@0;1&family=Hanken+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: fixed WebGL particle field behind a single scrolling column of chapters; each chapter morphs the field into a new shape and repaints --sec. Single committed dark world. */
+:root{
+  --bg:#090B12;
+  --bg-2:#10131D;
+  --glass:rgba(12,15,24,.62);
+  --fg:#F1EEE9;
+  --muted:#9AA0B4;
+  --line:rgba(241,238,233,.13);
+  --sec:#A9B1D6;
+  --go:#62E3A4;
+  --pivot:#F5C451;
+  --stop:#FF6B5A;
+  --display:"Bricolage Grotesque", "Arial Narrow", system-ui, sans-serif;
+  --serif:"Instrument Serif", Georgia, "Times New Roman", serif;
+  --body:"Hanken Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono:"JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:3;opacity:.07;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
+::selection{background:var(--sec);color:var(--bg)}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--sec);outline-offset:3px;border-radius:4px}
+
+#gl{position:fixed;inset:0;width:100%;height:100%;z-index:0;display:block}
+.vignette{position:fixed;inset:0;z-index:1;pointer-events:none;
+  background:radial-gradient(120% 90% at 70% 50%, transparent 40%, rgba(9,11,18,.75) 100%)}
+
+/* loader */
+.loader{position:fixed;inset:0;z-index:20;background:var(--bg);display:grid;place-items:center;
+  animation:loaderOut .6s ease 2.8s forwards}
+.loader.done{animation:loaderOut .6s ease forwards}
+.loader div{font-family:var(--mono);font-size:13px;letter-spacing:.08em;color:var(--muted);text-align:center;display:grid;gap:10px}
+.loader b{font-family:var(--display);font-weight:300;font-size:64px;letter-spacing:-.03em;color:var(--fg);font-variant-numeric:tabular-nums}
+@keyframes loaderOut{to{opacity:0;visibility:hidden}}
+
+/* chrome */
+.nav{position:fixed;top:0;left:0;right:0;z-index:10;display:flex;justify-content:space-between;align-items:center;
+  padding-top:calc(18px + env(safe-area-inset-top,0px));padding-bottom:18px;
+  padding-left:max(24px, env(safe-area-inset-left,0px));padding-right:max(24px, env(safe-area-inset-right,0px));
+  pointer-events:none}
+.nav > *{pointer-events:auto}
+.mono-mark{font-family:var(--display);font-weight:700;font-size:18px;letter-spacing:-.02em;text-decoration:none;display:flex;align-items:center;gap:10px}
+.mono-mark i{width:9px;height:9px;border-radius:50%;background:var(--sec);box-shadow:0 0 14px var(--sec);transition:background .6s, box-shadow .6s}
+.nav-right{display:flex;gap:14px;align-items:center}
+.lang{display:flex;border:1px solid var(--line);border-radius:999px;padding:3px;background:var(--glass);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.lang button{all:unset;cursor:pointer;font-family:var(--mono);font-size:11px;letter-spacing:.08em;padding:6px 10px;border-radius:999px;color:var(--muted)}
+.lang button[aria-pressed="true"]{background:var(--fg);color:var(--bg)}
+.lang button:focus-visible{outline:2px solid var(--sec)}
+.nav-cta{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;padding:9px 14px;border-radius:999px;border:1px solid var(--line);background:var(--glass);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.nav-cta:hover{border-color:var(--sec);color:var(--sec)}
+
+.chapters{position:fixed;right:max(24px, env(safe-area-inset-right,0px));top:50%;transform:translateY(-50%);z-index:10;display:grid;gap:10px;list-style:none;margin:0;padding:0}
+.chapters a{display:flex;align-items:center;justify-content:flex-end;gap:10px;text-decoration:none;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.chapters a span{opacity:0;transform:translateX(6px);transition:.3s}
+.chapters a::after{content:"";width:14px;height:1px;background:currentColor;transition:width .4s, background .4s}
+.chapters a:hover span,.chapters a.on span{opacity:1;transform:none}
+.chapters a.on{color:var(--fg)}
+.chapters a.on::after{width:34px;background:var(--sec)}
+
+.hud{position:fixed;left:max(24px, env(safe-area-inset-left,0px));bottom:calc(20px + env(safe-area-inset-bottom,0px));z-index:10;font-family:var(--mono);font-size:11px;letter-spacing:.08em;color:var(--muted);display:flex;gap:18px;align-items:flex-end;text-transform:uppercase;pointer-events:none;background:var(--glass);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding:10px 14px;border-radius:12px;border:1px solid var(--line)}
+.hud .meter{display:grid;gap:6px}
+.hud .bar{width:120px;height:2px;background:var(--line);position:relative;overflow:hidden}
+.hud .bar i{position:absolute;inset:0 auto 0 0;width:0;background:var(--sec);transition:background .6s}
+.hud b{color:var(--fg);font-weight:500;font-variant-numeric:tabular-nums}
+
+/* content */
+main{position:relative;z-index:2}
+.sec{min-height:100vh;display:flex;align-items:center;
+  padding-block:120px;
+  padding-left:max(24px, env(safe-area-inset-left,0px));padding-right:max(24px, env(safe-area-inset-right,0px))}
+.col{width:100%;max-width:620px;margin-left:clamp(0px, 6vw, 110px);display:grid;gap:26px;min-width:0}
+.label{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--sec);display:flex;align-items:center;gap:12px;transition:color .6s}
+.label::before{content:"";width:28px;height:1px;background:currentColor}
+h1,h2{font-family:var(--display);font-weight:700;letter-spacing:-.035em;line-height:.95;margin:0;text-wrap:balance}
+h2{font-size:clamp(40px, 5.6vw, 76px)}
+h2 em,h1 em{font-family:var(--serif);font-style:italic;font-weight:400;letter-spacing:-.01em;color:var(--sec);transition:color .6s}
+p{margin:0;max-width:58ch;color:color-mix(in srgb, var(--fg) 82%, var(--muted))}
+.lede{font-size:clamp(18px,1.6vw,21px);line-height:1.55}
+
+/* hero */
+.hero{min-height:94vh}
+.hero .col{max-width:900px}
+.hero h1{font-size:clamp(64px, 12.5vw, 188px);line-height:.84;font-weight:800;letter-spacing:-.055em}
+.hero h1 em{display:block;font-size:.78em;letter-spacing:-.02em;padding-left:.12em;color:var(--fg)}
+.eyebrow{font-family:var(--mono);font-size:12.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.hero .lede{max-width:34ch;font-size:clamp(19px,1.8vw,24px)}
+.hero .lede em{font-family:var(--serif);font-size:1.25em;color:var(--sec)}
+.hint{display:flex;align-items:center;gap:12px;font-family:var(--mono);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.hint i{width:1px;height:38px;background:linear-gradient(var(--sec),transparent);animation:drip 2s ease-in-out infinite}
+@keyframes drip{0%{transform:scaleY(.2);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(.2);transform-origin:bottom}}
+
+/* journey */
+.steps{display:grid;gap:0;border-top:1px solid var(--line)}
+.step{display:grid;grid-template-columns:110px 1fr;gap:20px;padding:22px 0;border-bottom:1px solid var(--line);align-items:baseline}
+.step small{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.step strong{display:block;font-family:var(--display);font-weight:600;font-size:clamp(28px,3.4vw,44px);letter-spacing:-.03em;line-height:1}
+.step span{display:block;margin-top:8px;color:var(--muted);font-size:15px}
+.step:last-child strong{color:var(--sec);transition:color .6s}
+
+/* chips */
+.chips{display:flex;flex-wrap:wrap;gap:8px;list-style:none;margin:0;padding:0}
+.chips li{font-size:14px;padding:7px 13px;border:1px solid var(--line);border-radius:999px;background:var(--glass);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.stats{display:flex;flex-wrap:wrap;gap:36px}
+.stat b{display:block;font-family:var(--display);font-weight:300;font-size:clamp(56px,7vw,96px);letter-spacing:-.05em;line-height:.9;color:var(--sec);font-variant-numeric:tabular-nums;transition:color .6s}
+.stat span{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+
+/* cards */
+.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.card{padding:20px;border:1px solid var(--line);border-radius:14px;background:var(--glass);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);display:grid;gap:8px;align-content:start;transition:border-color .3s, transform .3s}
+.card:hover{border-color:color-mix(in srgb, var(--sec) 60%, transparent);transform:translateY(-2px)}
+.card .k{font-family:var(--mono);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.card .n{font-family:var(--display);font-weight:600;font-size:clamp(28px,2.8vw,38px);letter-spacing:-.035em;line-height:1;color:var(--sec);transition:color .6s}
+.card .u{font-size:13px;color:var(--muted);margin-top:-4px}
+.card p{font-size:14.5px;line-height:1.5}
+
+/* method */
+.claims{display:grid;gap:14px;list-style:none;margin:0;padding:0}
+.claims li{display:grid;grid-template-columns:22px 1fr;gap:12px;font-size:17px}
+.claims li::before{content:"";width:9px;height:9px;margin-top:9px;border:1px solid var(--sec);transform:rotate(45deg);transition:border-color .6s}
+.try{display:grid;gap:12px}
+.try p{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.modes{display:flex;flex-wrap:wrap;gap:8px}
+.modes button{cursor:pointer;font:500 15px/1 var(--body);color:var(--fg);background:var(--glass);border:1px solid var(--line);border-radius:999px;padding:12px 20px;display:flex;align-items:center;gap:10px;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.modes button i{width:8px;height:8px;border-radius:50%;background:var(--muted)}
+.modes button:hover{border-color:var(--sec)}
+.modes button[aria-pressed="true"]{border-color:var(--sec);background:color-mix(in srgb, var(--sec) 16%, var(--bg))}
+.modes button[aria-pressed="true"] i{background:var(--sec);box-shadow:0 0 10px var(--sec)}
+.term{border:1px solid var(--line);border-radius:12px;background:rgba(6,8,13,.78);overflow:hidden;min-width:0}
+.term header{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border-bottom:1px solid var(--line);font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.06em}
+.term header span:first-child::before{content:"● ● ●  ";color:var(--line);letter-spacing:.1em}
+.term pre{margin:0;padding:16px;overflow-x:auto;font-family:var(--mono);font-size:13px;line-height:1.7;color:#C9CDDA}
+.term .c{color:#6C7389}.term .kw{color:var(--sec);transition:color .6s}.term .s{color:#F5C451}
+.caret{display:inline-block;width:8px;height:15px;background:var(--sec);vertical-align:-2px;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+
+/* marquee */
+.marquee{position:relative;z-index:2;overflow:hidden;border-block:1px solid var(--line);padding-block:20px;background:rgba(9,11,18,.5)}
+.marquee .track{display:flex;width:max-content;animation:slide 60s linear infinite}
+.marquee span{font-family:var(--display);font-weight:300;font-size:clamp(26px,3vw,40px);letter-spacing:-.03em;padding-right:28px;white-space:nowrap;color:var(--muted)}
+.marquee span b{font-weight:300;color:var(--fg)}
+.marquee span i{font-style:normal;color:var(--sec);padding-left:28px}
+@keyframes slide{to{transform:translateX(-50%)}}
+
+/* build */
+.pipe{display:flex;flex-wrap:wrap;align-items:stretch;gap:8px}
+.node{flex:1 1 140px;padding:14px 16px;border:1px solid var(--line);border-radius:12px;background:var(--glass);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);min-width:0}
+.node b{display:block;font-family:var(--display);font-weight:600;font-size:20px;letter-spacing:-.02em}
+.node span{font-size:13.5px;color:var(--muted)}
+.arrow{align-self:center;color:var(--sec);font-family:var(--mono)}
+.status{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--sec)}
+.status::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor;animation:pulse 1.6s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.25}}
+.writing{display:grid;gap:10px;padding-top:8px;border-top:1px solid var(--line)}
+.writing small{font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.writing ul{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.writing a{text-decoration:none;font-family:var(--serif);font-style:italic;font-size:21px;line-height:1.3;border-bottom:1px solid transparent}
+.writing a:hover{border-color:var(--sec)}
+
+/* contact */
+.contact h2{font-size:clamp(46px,7vw,104px)}
+.mail{display:flex;flex-wrap:wrap;align-items:center;gap:12px}
+.mail code{font-family:var(--display);font-weight:500;font-size:clamp(20px,2.6vw,30px);letter-spacing:-.02em;user-select:all;word-break:break-all}
+.btn{cursor:pointer;font:500 14px/1 var(--body);color:var(--bg);background:var(--fg);border:0;border-radius:999px;padding:12px 18px;text-decoration:none;display:inline-flex;gap:8px;align-items:center}
+.btn.ghost{background:transparent;color:var(--fg);border:1px solid var(--line)}
+.btn:hover{background:var(--sec);color:var(--bg)}
+.links{display:flex;flex-wrap:wrap;gap:10px}
+.facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;padding-top:20px;border-top:1px solid var(--line)}
+.facts small{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.facts span{font-size:15px}
+footer{position:relative;z-index:2;padding-block:28px calc(28px + env(safe-area-inset-bottom,0px));
+  padding-left:max(24px, env(safe-area-inset-left,0px));padding-right:max(24px, env(safe-area-inset-right,0px));
+  font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;color:var(--muted);display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;border-top:1px solid var(--line);background:var(--bg)}
+
+/* go / pivot / stop simulator */
+.sim{border:1px solid var(--line);border-radius:16px;background:var(--glass);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);padding:20px;display:grid;gap:18px;min-width:0}
+.sim-h{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;align-items:center;font-family:var(--display);font-weight:600;font-size:20px;letter-spacing:-.02em}
+.tag{font-family:var(--mono);font-size:10.5px;font-weight:400;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:4px 9px}
+.hyp{display:grid;gap:4px}
+.hyp span{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.hyp q{font-family:var(--serif);font-style:italic;font-size:22px;line-height:1.25;color:var(--fg)}
+.sim-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.sim fieldset{border:1px solid var(--line);border-radius:12px;padding:14px;margin:0;display:grid;gap:14px;align-content:start;min-width:0}
+.sim legend{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--sec);padding:0 6px;transition:color .6s}
+.rng{display:grid;gap:6px}
+.rng label{display:flex;justify-content:space-between;align-items:baseline;gap:10px;font-size:13.5px;line-height:1.35;color:var(--muted)}
+.rng output{font-family:var(--mono);font-size:13px;color:var(--fg);font-variant-numeric:tabular-nums;white-space:nowrap}
+.rng input{width:100%;accent-color:var(--sec);margin:0;cursor:pointer}
+.sim fieldset[data-locked="true"] .rng input{opacity:.4;cursor:not-allowed}
+.lockrow{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.lockrow small{font-size:12.5px;line-height:1.4;color:var(--muted)}
+.btn.sm{padding:9px 14px;font-size:13px}
+.nudge{font-size:13px;line-height:1.45;color:var(--pivot)}
+.scale{position:relative;height:34px;border-radius:8px;overflow:hidden;background:var(--bg-2)}
+.scale .z{position:absolute;top:0;bottom:0;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10px;letter-spacing:.1em;overflow:hidden;white-space:nowrap}
+#zStop{left:0;background:color-mix(in srgb,var(--stop) 22%,transparent);color:var(--stop)}
+#zPivot{background:color-mix(in srgb,var(--pivot) 18%,transparent);color:var(--pivot)}
+#zGo{background:color-mix(in srgb,var(--go) 18%,transparent);color:var(--go)}
+.scale .mark{position:absolute;top:0;bottom:0;width:3px;margin-left:-1.5px;background:var(--fg);box-shadow:0 0 12px var(--fg);transition:left .2s}
+.verdict{display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:center;padding-top:16px;border-top:1px solid var(--line)}
+.verdict b{font-family:var(--display);font-weight:800;font-size:clamp(34px,4vw,52px);letter-spacing:-.04em;line-height:1;color:var(--muted);transition:color .3s}
+.verdict[data-v="go"] b{color:var(--go)}
+.verdict[data-v="pivot"] b{color:var(--pivot)}
+.verdict[data-v="stop"] b{color:var(--stop)}
+.verdict p{font-size:15px;line-height:1.5}
+
+/* agents */
+.roles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.role{display:grid;gap:4px;padding-top:12px;border-top:2px solid var(--sec);transition:border-color .6s}
+.role small{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--sec);transition:color .6s}
+.role span{font-size:15px;line-height:1.45}
+#replay{min-height:calc(13 * 1.7em + 32px)}
+#replay .ok{color:var(--go)}#replay .err{color:var(--stop)}#replay .dim{color:#6C7389}#replay .p{color:var(--sec)}
+.sitecard{border-style:dashed}
+
+/* case studies */
+.more{all:unset;cursor:pointer;font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--sec);margin-top:4px;justify-self:start;border-bottom:1px solid transparent;transition:color .6s}
+.more:hover{border-color:var(--sec)}
+.more:focus-visible{outline:2px solid var(--sec);outline-offset:3px}
+.case-ov{position:fixed;inset:0;z-index:30;background:rgba(9,11,18,.72);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);display:flex;justify-content:flex-end;opacity:0;transition:opacity .25s}
+.case-ov.in{opacity:1}
+.case-panel{position:relative;width:min(760px,100%);height:100%;overflow-y:auto;background:var(--bg-2);border-left:1px solid var(--line);display:grid;gap:24px;align-content:start;
+  padding-top:calc(64px + env(safe-area-inset-top,0px));padding-bottom:calc(56px + env(safe-area-inset-bottom,0px));
+  padding-left:max(32px, env(safe-area-inset-left,0px));padding-right:max(32px, env(safe-area-inset-right,0px));
+  transform:translateX(40px);transition:transform .35s cubic-bezier(.2,.8,.2,1)}
+.case-ov.in .case-panel{transform:none}
+.case-panel h2{font-size:clamp(34px,4.4vw,56px)}
+.case-close{position:absolute;top:calc(18px + env(safe-area-inset-top,0px));right:max(18px, env(safe-area-inset-right,0px));cursor:pointer;width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:transparent;color:var(--fg);font-size:15px}
+.case-close:hover{border-color:var(--sec);color:var(--sec)}
+.case-meta{display:flex;flex-wrap:wrap;gap:8px;list-style:none;margin:0;padding:0}
+.case-meta li{font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;padding:6px 11px;border:1px solid var(--line);border-radius:999px;color:var(--muted)}
+.case-out{padding-block:6px 4px;border-block:1px solid var(--line);gap:40px}
+.case-out .stat{padding-block:16px}
+.case-out .stat b{font-size:clamp(40px,5vw,64px)}
+.case-body{display:grid;gap:0}
+.cb{display:grid;grid-template-columns:150px minmax(0,1fr);gap:20px;padding-block:18px;border-bottom:1px solid var(--line)}
+.cb h3{margin:0;font-family:var(--mono);font-weight:500;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--sec);padding-top:4px;transition:color .6s}
+.cb p{font-size:16.5px;line-height:1.65}
+@media (max-width: 560px){.cb{grid-template-columns:1fr;gap:6px}.case-panel{padding-left:max(20px, env(safe-area-inset-left,0px));padding-right:max(20px, env(safe-area-inset-right,0px))}}
+
+@media (max-width: 900px){
+  .chapters{display:none}
+  .col{margin-left:0}
+  .sec{padding-block:96px}
+  .card,.chips li,.node{background:rgba(12,15,24,.78)}
+  .col > p,.claims,.steps{text-shadow:0 1px 18px var(--bg)}
+}
+@media (max-width: 560px){
+  body{font-size:16px}
+  .cards,.sim-grid,.roles{grid-template-columns:1fr}
+  .verdict{grid-template-columns:1fr;gap:8px}
+  .sim{padding:16px}
+  #replay{font-size:11.5px}
+  .step{grid-template-columns:1fr;gap:6px}
+  .facts{grid-template-columns:1fr 1fr}
+  .hud .bar{width:72px}
+  .nav-cta{display:none}
+  .arrow{transform:rotate(90deg);width:100%;text-align:center}
+}
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  .marquee .track,.hint i,.caret,.status::before{animation:none}
+  .case-ov,.case-panel{transition:none}
+}
+</style>
+</head>
+<body>
+
+<div class="loader" id="loader" aria-hidden="true"><div><b id="loadN">0</b><span data-i18n="loader">Lendo conversas de suporte</span></div></div>
+
+<canvas id="gl" aria-hidden="true"></canvas>
+<div class="vignette" aria-hidden="true"></div>
+
+<nav class="nav">
+  <a class="mono-mark" href="#inicio"><i></i>Priscila</a>
+  <div class="nav-right">
+    <div class="lang" role="group" aria-label="Language">
+      <button type="button" id="lang-en" data-lang="en" aria-pressed="true">EN</button>
+      <button type="button" id="lang-pt" data-lang="pt" aria-pressed="false">PT</button>
+      <button type="button" id="lang-es" data-lang="es" aria-pressed="false">ES</button>
+    </div>
+    <a class="nav-cta" href="#contato" data-i18n="nav.cta">Contato</a>
+  </div>
+</nav>
+
+<ol class="chapters" id="chapters"></ol>
+
+<div class="hud" aria-hidden="true">
+  <div class="meter"><span data-i18n="hud.label">sinal / ruído</span><div class="bar"><i id="hudBar"></i></div></div>
+  <div><b id="hudPct">000%</b> · <span id="hudShape">ruído</span></div>
+</div>
+
+<main>
+  <section class="sec hero" id="inicio" data-sec="0">
+    <div class="col">
+      <div class="eyebrow" data-i18n="hero.eyebrow">Senior Product Manager · IA, SaaS B2B & Fintech</div>
+      <h1>Priscila <em>dos Santos</em></h1>
+      <p class="lede" data-i18n="hero.lede">Transformo ruído em <em>sinal</em>. Conversas de suporte, dados soltos e opiniões viram decisões de produto, e decisões viram receita.</p>
+      <div class="hint"><i></i><span data-i18n="hero.hint">Role e veja o caos se organizar</span></div>
+    </div>
+  </section>
+
+  <section class="sec" id="trajetoria" data-sec="1">
+    <div class="col">
+      <div class="label" data-i18n="journey.label">Trajetória</div>
+      <div class="steps">
+        <div class="step"><small data-i18n="journey.first">Primeiro</small><div><strong data-i18n="journey.firstT">consultoria global.</strong><span>Thoughtworks</span></div></div>
+        <div class="step"><small data-i18n="journey.then">Depois</small><div><strong data-i18n="journey.thenT">fintech regulada.</strong><span data-i18n="journey.thenS">EmanaPay · SCD da Natura &amp;Co</span></div></div>
+        <div class="step"><small data-i18n="journey.today">Hoje</small><div><strong data-i18n="journey.todayT">growth em SaaS B2B.</strong><span>RD Station Marketing · TOTVS</span></div></div>
+      </div>
+      <p data-i18n="journey.note">Já trabalhei em consultoria, em fintech early-stage e em grande empresa. Me adapto ao modelo operacional de cada uma, em vez de importar um.</p>
+    </div>
+  </section>
+
+  <section class="sec" id="agora" data-sec="2">
+    <div class="col">
+      <div class="label" data-i18n="now.label">Agora · Senior PM de geração de leads</div>
+      <h2 data-i18n="now.title">Cada ponto de conversão é <em>receita.</em></h2>
+      <p data-i18n="now.body">No RD Station Marketing (TOTVS), a principal plataforma de automação de marketing da América Latina, respondo pela superfície de conversão:</p>
+      <ul class="chips">
+        <li>Landing pages</li><li data-i18n="chip.forms">Formulários integrados</li><li>Pop-ups</li><li data-i18n="chip.wa">Entradas por WhatsApp</li><li>SEO</li>
+      </ul>
+      <div class="stats">
+        <div class="stat"><b data-count="1800" data-fmt="k">1.800+</b><span data-i18n="now.s1">conversas de suporte</span></div>
+        <div class="stat"><b>2</b><span data-i18n="now.s2">anos de voz do cliente</span></div>
+      </div>
+      <p data-i18n="now.foot">A base para reconstruir o editor de landing pages e decidir onde a IA de fato agrega valor.</p>
+      <div><button class="btn ghost" type="button" data-case="lp"><span data-i18n="case.read">Read the case</span> →</button></div>
+    </div>
+  </section>
+
+  <section class="sec" id="fintech" data-sec="3">
+    <div class="col">
+      <div class="label" data-i18n="fin.label">Fintech regulada · 18 meses como Senior PO</div>
+      <h2 data-i18n="fin.title">Onde compliance <em>não é opcional.</em></h2>
+      <p data-i18n="fin.body">Na EmanaPay, liderei a squad transacional: Pix, DDA, conta, extratos, poupança e recompensas.</p>
+      <div class="cards">
+        <article class="card"><span class="k">Meus Sonhos</span><span class="n">R$75M</span><span class="u" data-i18n="c1.u">em carteira</span><p data-i18n="c1.d">Poupança por objetivos. Lancei e escalei, com rendimento de até 110% do CDI.</p><button class="more" type="button" data-case="meus"><span data-i18n="case.read">Read the case</span> →</button></article>
+        <article class="card"><span class="k">PayHop</span><span class="n">R$1B+</span><span class="u" data-i18n="c2.u">em recebíveis transacionados</span><p data-i18n="c2.d">Antecipação de recebíveis e crédito mercantil, integrado às quatro registradoras: CERC, CIP, B3 e TAG.</p><button class="more" type="button" data-case="payhop"><span data-i18n="case.read">Read the case</span> →</button></article>
+        <article class="card"><span class="k">DDA</span><span class="n">Dock + Núclea</span><span class="u" data-i18n="c3.u">integrações</span><p data-i18n="c3.d">Débito Direto Autorizado, do discovery à entrega.</p><button class="more" type="button" data-case="dda"><span data-i18n="case.read">Read the case</span> →</button></article>
+        <article class="card"><span class="k">EmanaPay+</span><span class="n">Pix ↑</span><span class="u" data-i18n="c4.u">boletos ↑ · poupança ↑</span><p data-i18n="c4.d">Programa de recompensas gamificado que aumentou o volume de Pix, de pagamento de boletos e de aportes em poupança.</p><button class="more" type="button" data-case="plus"><span data-i18n="case.read">Read the case</span> →</button></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="metodo" data-sec="4">
+    <div class="col">
+      <div class="label" data-i18n="method.label">Como eu trabalho</div>
+      <h2 data-i18n="method.title">Evidência antes de <em>opinião.</em></h2>
+      <ul class="claims">
+        <li data-i18n="method.p1">Prefiro ler 1.800 tickets de suporte a discutir por gosto.</li>
+        <li data-i18n="method.p2">Defino os critérios de seguir, pivotar ou parar antes do discovery começar, não depois.</li>
+        <li data-i18n="method.p3">Escrevo meu próprio SQL e specs que a engenharia não precisa decifrar.</li>
+      </ul>
+      <div class="sim" id="sim">
+        <div class="sim-h"><span data-i18n="sim.title">Go / Pivot / Stop simulator</span><span class="tag" data-i18n="sim.example">example hypothesis</span></div>
+        <p class="hyp"><span data-i18n="sim.hypL">Hypothesis</span><q data-i18n="sim.hyp">A guided setup checklist raises week-1 activation.</q></p>
+        <div class="sim-grid">
+          <fieldset id="crit">
+            <legend data-i18n="sim.c">1 · Criteria, set before discovery</legend>
+            <div class="rng"><label for="goT"><span data-i18n="sim.go">Go if lift ≥</span><output id="goO"></output></label><input type="range" id="goT" min="0.5" max="8" step="0.5" value="4"></div>
+            <div class="rng"><label for="stopT"><span data-i18n="sim.stop">Stop if lift &lt;</span><output id="stopO"></output></label><input type="range" id="stopT" min="0" max="5" step="0.5" value="1"></div>
+            <div class="rng"><label for="guardT"><span data-i18n="sim.guard">Guardrail: support tickets may rise at most</span><output id="guardO"></output></label><input type="range" id="guardT" min="0" max="30" step="5" value="10"></div>
+            <div class="lockrow"><button class="btn sm" type="button" id="lock"><span>Unlock and start over</span></button><small id="lockMsg"></small></div>
+            <p class="nudge" id="nudge" hidden></p>
+          </fieldset>
+          <fieldset id="obs">
+            <legend data-i18n="sim.o">2 · What the experiment showed</legend>
+            <div class="rng"><label for="lift"><span data-i18n="sim.lift">Week-1 activation lift</span><output id="liftO"></output></label><input type="range" id="lift" min="-3" max="10" step="0.1" value="2.6"></div>
+            <div class="rng"><label for="tix"><span data-i18n="sim.tix">Change in support tickets</span><output id="tixO"></output></label><input type="range" id="tix" min="-20" max="40" step="1" value="6"></div>
+            <div class="scale" aria-hidden="true"><div class="z" id="zStop"></div><div class="z" id="zPivot"></div><div class="z" id="zGo"></div><i class="mark" id="mark"></i></div>
+          </fieldset>
+        </div>
+        <div class="verdict" id="verdict" data-v="pivot" aria-live="polite"><b id="vWord">PIVOT</b><p id="vWhy"></p></div>
+      </div>
+      <div class="term">
+        <header><span>discovery.sql</span><span data-i18n="method.ex">exemplo ilustrativo</span></header>
+<pre><span class="c" data-i18n="method.cm">-- antes da opinião, a pergunta</span>
+<span class="kw">SELECT</span> motivo, <span class="kw">COUNT</span>(*) <span class="kw">AS</span> conversas
+<span class="kw">FROM</span>   suporte.tickets
+<span class="kw">WHERE</span>  produto = <span class="s">'editor_lp'</span>
+<span class="kw">GROUP BY</span> motivo
+<span class="kw">ORDER BY</span> conversas <span class="kw">DESC</span>;<span class="caret"></span></pre>
+      </div>
+    </div>
+  </section>
+
+  <div class="marquee" aria-label="Competências"><div class="track" id="track"></div></div>
+
+  <section class="sec" id="healhub" data-sec="5">
+    <div class="col">
+      <div class="label" data-i18n="build.label">Também construo</div>
+      <h2>Heal<em>Hub</em></h2>
+      <span class="status" data-i18n="build.status">em construção</span>
+      <p data-i18n="build.body">Uma plataforma de gestão para profissionais de saúde: agenda, nota fiscal e financeiro no mesmo lugar, para sobrar mais tempo para o atendimento. Prototipei e coloquei de pé sozinha, com agentes de IA.</p>
+      <p data-i18n="build.foot">Zero gasto em créditos e sem vendor lock-in.</p>
+      <div class="writing">
+        <small data-i18n="build.writing">Também escrevo na PM Letter da Product Oversee</small>
+        <ul>
+          <li><a href="https://productoversee.com" target="_blank" rel="noopener">Aprendizados de migração de carreira ↗</a></li>
+          <li><a href="https://productoversee.com" target="_blank" rel="noopener">Vulnerabilidade: o que ela tem a ver com inovação? ↗</a></li>
+          <li><a href="https://productoversee.com" target="_blank" rel="noopener">Barbie: o poder de uma love brand ↗</a></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="agents" data-sec="6">
+    <div class="col">
+      <div class="label" data-i18n="ag.label">Agentic development</div>
+      <h2 data-i18n="ag.title">From business pain to <em>real product.</em></h2>
+      <p data-i18n="ag.body">My setup connects three pieces: Lovable to speed up prototyping, GitHub to version and own the code, and an AI agent (OpenAI's Codex) to edit and evolve it outside the platform.</p>
+      <div class="pipe">
+        <div class="node"><b>Lovable</b><span data-i18n="pipe.1">prototyping</span></div>
+        <span class="arrow">→</span>
+        <div class="node"><b>GitHub</b><span data-i18n="pipe.2">versioning</span></div>
+        <span class="arrow">→</span>
+        <div class="node"><b>Codex</b><span data-i18n="pipe.3">agent that evolves the code</span></div>
+      </div>
+      <div class="roles">
+        <div class="role"><small data-i18n="ag.me">Me</small><span data-i18n="ag.meV">problem framing, spec, acceptance criteria, review</span></div>
+        <div class="role"><small data-i18n="ag.ai">Agents</small><span data-i18n="ag.aiV">prototypes, code, tests, fixes</span></div>
+      </div>
+      <div class="term">
+        <header><span>healhub · agent-loop</span><span data-i18n="ag.replay">illustrative replay of the loop</span></header>
+        <pre id="replay"></pre>
+      </div>
+      <article class="card sitecard"><span class="k" data-i18n="ag.siteK">This site</span><p data-i18n="ag.site">This site is a builder project too.</p></article>
+    </div>
+  </section>
+
+  <section class="sec contact" id="contato" data-sec="7">
+    <div class="col">
+      <div class="label" data-i18n="contact.label">Próximo capítulo</div>
+      <h2 data-i18n="contact.title">Vamos construir o que vem <em>a seguir?</em></h2>
+      <p class="lede" data-i18n="contact.body">Busco vagas de Senior Product Manager ou Product Manager: híbrido em Sevilha ou Madri, ou remoto nos fusos da EMEA e dos EUA.</p>
+      <div class="mail">
+        <code id="email">prisciladossantos2012@gmail.com</code>
+      </div>
+      <div class="links">
+        <button class="btn" type="button" id="copy"><span data-i18n="contact.copy">Copiar e-mail</span></button>
+        <a class="btn ghost" href="https://www.linkedin.com/in/priscila-dos-santos-31069455/" target="_blank" rel="noopener">LinkedIn ↗</a>
+      </div>
+      <div class="facts">
+        <div><small data-i18n="f.base">Base</small><span data-i18n="f.baseV">Espanha</span></div>
+        <div><small data-i18n="f.mode">Modelo</small><span data-i18n="f.modeV">Híbrido · Remoto</span></div>
+        <div><small data-i18n="f.lang">Idiomas</small><span>PT · EN · ES</span></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div class="case-ov" id="caseOv" hidden role="dialog" aria-modal="true" aria-labelledby="caseTitle">
+  <div class="case-panel" id="casePanel">
+    <button class="case-close" type="button" id="caseClose" aria-label="Close">✕</button>
+    <div class="label" id="caseK"></div>
+    <h2 id="caseTitle"></h2>
+    <ul class="case-meta" id="caseMeta"></ul>
+    <div class="stats case-out" id="caseOut"></div>
+    <div class="case-body" id="caseBody"></div>
+  </div>
+</div>
+
+<footer>
+  <span>© 2026 Priscila dos Santos</span>
+  <span data-i18n="foot">Feito com Three.js e 16.000 partículas. Nenhum dado confidencial foi ferido.</span>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function(){
+"use strict";
+const I18N = {
+ pt:{
+  "loader":"Lendo conversas de suporte","nav.cta":"Contato","hud.label":"sinal / ruído",
+  "hero.eyebrow":"Senior Product Manager · IA, SaaS B2B & Fintech",
+  "hero.lede":"Transformo ruído em <em>sinal</em>. Conversas de suporte, dados soltos e opiniões viram decisões de produto, e decisões viram receita.",
+  "hero.hint":"Role e veja o caos se organizar",
+  "journey.label":"Trajetória","journey.first":"Primeiro","journey.firstT":"consultoria global.","journey.then":"Depois","journey.thenT":"fintech regulada.","journey.thenS":"EmanaPay · SCD da Natura &amp;Co","journey.today":"Hoje","journey.todayT":"growth em SaaS B2B.",
+  "journey.note":"Já trabalhei em consultoria, em fintech early-stage e em grande empresa. Me adapto ao modelo operacional de cada uma, em vez de importar um.",
+  "now.label":"Agora · Senior PM de geração de leads","now.title":"Cada ponto de conversão é <em>receita.</em>",
+  "now.body":"No RD Station Marketing (TOTVS), a principal plataforma de automação de marketing da América Latina, respondo pela superfície de conversão:",
+  "chip.forms":"Formulários integrados","chip.wa":"Entradas por WhatsApp","chip.track":"Rastreamento de leads",
+  "now.s1":"conversas de suporte","now.s2":"anos de voz do cliente",
+  "now.foot":"A base para reconstruir o editor de landing pages e decidir onde a IA de fato agrega valor.",
+  "fin.label":"Fintech regulada · 18 meses como Senior PO","fin.title":"Onde compliance <em>não é opcional.</em>",
+  "fin.body":"Na EmanaPay, liderei a squad transacional: Pix, DDA, conta, extratos, poupança e recompensas.",
+  "c1.u":"em carteira","c1.d":"Poupança por objetivos. Lancei e escalei, com rendimento de até 110% do CDI.",
+  "c2.u":"em recebíveis transacionados","c2.d":"Antecipação de recebíveis e crédito mercantil, integrado às quatro registradoras: CERC, CIP, B3 e TAG.",
+  "c3.u":"integrações","c3.d":"Débito Direto Autorizado, do discovery à entrega.",
+  "c4.u":"boletos ↑ · poupança ↑","c4.d":"Programa de recompensas gamificado que aumentou o volume de Pix, de pagamento de boletos e de aportes em poupança.",
+  "method.label":"Como eu trabalho","method.title":"Evidência antes de <em>opinião.</em>",
+  "method.p1":"Prefiro ler 1.800 tickets de suporte a discutir por gosto.",
+  "method.p2":"Defino os critérios de seguir, pivotar ou parar antes do discovery começar, não depois.",
+  "method.p3":"Escrevo meu próprio SQL e specs que a engenharia não precisa decifrar.",
+  "method.try":"Teste os critérios nas partículas:","mode.go":"Seguir","mode.pivot":"Pivotar","mode.stop":"Parar",
+  "method.ex":"exemplo ilustrativo","method.cm":"-- antes da opinião, a pergunta",
+  "build.label":"Também construo","build.status":"em construção",
+  "build.body":"Uma plataforma de gestão para profissionais de saúde: agenda, nota fiscal e financeiro no mesmo lugar, para sobrar mais tempo para o atendimento. Prototipei e coloquei de pé sozinha, com agentes de IA.",
+  "pipe.1":"prototipação","pipe.2":"versionamento","pipe.3":"agente que evolui o código",
+  "build.foot":"Zero gasto em créditos e sem vendor lock-in.","build.writing":"Também escrevo na PM Letter da Product Oversee",
+  "contact.label":"Próximo capítulo","contact.title":"Vamos construir o que vem <em>a seguir?</em>",
+  "contact.body":"Busco vagas de Senior Product Manager ou Product Manager: híbrido em Sevilha ou Madri, ou remoto nos fusos da EMEA e dos EUA.",
+  "contact.copy":"Copiar e-mail","contact.copied":"Copiado",
+  "f.base":"Base","f.baseV":"Espanha","f.mode":"Modelo","f.modeV":"Híbrido · Remoto","f.lang":"Idiomas",
+  "foot":"Feito com Three.js e {N} partículas. Nenhum dado confidencial foi ferido.",
+  "case.read":"Ler o case","unit.pp":"p.p.",
+  "sim.title":"Simulador seguir / pivotar / parar","sim.example":"hipótese de exemplo","sim.hypL":"Hipótese",
+  "sim.hyp":"Um checklist guiado de configuração aumenta a ativação na primeira semana.",
+  "sim.c":"1 · Critérios, definidos antes do discovery","sim.go":"Seguir se o ganho for ≥","sim.stop":"Parar se o ganho for &lt;",
+  "sim.guard":"Guardrail: tickets de suporte podem subir no máximo",
+  "sim.o":"2 · O que o experimento mostrou","sim.lift":"Ganho de ativação na semana 1","sim.tix":"Variação nos tickets de suporte",
+  "sim.lock":"Travar critérios","sim.unlock":"Destravar e recomeçar","sim.locked":"Travados antes do discovery começar.",
+  "sim.unlockedMsg":"Defina a régua e trave. Os resultados ficam escondidos até lá.",
+  "sim.nudge":"Os critérios estão travados. Mudar a régua depois de ver os dados é justamente o que isso evita.",
+  "sim.waiting":"Aguardando critérios travados.",
+  "v.go":"SEGUIR","v.pivot":"PIVOTAR","v.stop":"PARAR",
+  "why.go":"{l} p.p. passa a régua de {g} p.p. e o guardrail se mantém. Hora de escalar.",
+  "why.weak":"{l} p.p. é sinal, mas fica abaixo da régua de {g} p.p. Mantém o problema, muda a solução.",
+  "why.guard":"O ganho passa a régua, mas os tickets subiram {t}% (limite de {gd}%). Mantém o problema, muda a solução.",
+  "why.stop":"{l} p.p. fica abaixo do piso de {s} p.p. Parar e reinvestir o tempo do time.",
+  "ag.label":"Desenvolvimento com agentes","ag.title":"Da dor de negócio ao <em>produto real.</em>",
+  "ag.body":"Meu setup conecta três peças: Lovable para acelerar a prototipação, GitHub para versionar e ser dona do código, e um agente de IA (o Codex, da OpenAI) para editar e evoluir esse código fora da plataforma. Isso me dá liberdade, sem vendor lock-in e com espaço para experimentar de verdade.",
+  "ag.me":"Eu","ag.meV":"enquadramento do problema, spec, critérios de aceite, revisão","ag.ai":"Agentes","ag.aiV":"protótipos, código, testes, correções",
+  "ag.replay":"replay ilustrativo do ciclo","ag.siteK":"Este site",
+  "ag.site":"Este site também é um projeto de builder. Dirigi a construção com um agente de IA em uma noite: conceito, WebGL com {N} partículas, três idiomas e um único arquivo HTML.",
+  shapes:["ruído","trajetória","funil","carteira","dados","saúde","rede","mundo"],
+  chapters:["Início","Trajetória","Agora","Fintech","Método","HealHub","Agentes","Contato"],
+  skills:["Gestão de Produto","Estratégia de Produto","Product Discovery","Roadmap","Produtos de IA","SaaS B2B","Growth & CRO","Geração de Leads","Automação de Marketing","Fintech","Meios de Pagamento","Produtos Regulados","SQL","OKRs","Stakeholders","Agile"]
+ },
+ en:{
+  "loader":"Reading support conversations","nav.cta":"Contact","hud.label":"signal / noise",
+  "hero.eyebrow":"Senior Product Manager · AI, B2B SaaS & Fintech",
+  "hero.lede":"I turn noise into <em>signal</em>. Support conversations, scattered data and opinions become product decisions, and decisions become revenue.",
+  "hero.hint":"Scroll and watch the chaos organize",
+  "journey.label":"Path","journey.first":"First","journey.firstT":"global consulting.","journey.then":"Then","journey.thenT":"regulated fintech.","journey.thenS":"EmanaPay · Natura &amp;Co's direct-credit company","journey.today":"Today","journey.todayT":"B2B SaaS growth.",
+  "journey.note":"I've worked in consulting, early-stage fintech and a large enterprise. I adapt to each operating model instead of importing one.",
+  "now.label":"Now · Senior PM, Lead Generation","now.title":"Every conversion point is <em>revenue.</em>",
+  "now.body":"At RD Station Marketing (TOTVS), Latin America's leading marketing automation platform, I own the conversion surface:",
+  "chip.forms":"Integrated forms","chip.wa":"WhatsApp entry points","chip.track":"Lead tracking",
+  "now.s1":"support conversations","now.s2":"years of voice-of-customer data",
+  "now.foot":"The foundation for rebuilding the landing page editor and deciding where AI actually adds value.",
+  "fin.label":"Regulated fintech · 18 months as Senior PO","fin.title":"Where compliance <em>isn't optional.</em>",
+  "fin.body":"At EmanaPay I led the transactional squad: Pix, DDA, accounts, statements, savings and rewards.",
+  "c1.u":"in savings balances","c1.d":"Goal-based savings. I launched and scaled it, yielding up to 110% of CDI.",
+  "c2.u":"in receivables transacted","c2.d":"Receivables prepayment and merchant credit, integrated with all four Brazilian registrars: CERC, CIP, B3 and TAG.",
+  "c3.u":"integrations","c3.d":"Authorized Direct Debit, from discovery to delivery.",
+  "c4.u":"bills ↑ · savings ↑","c4.d":"A gamified rewards program that grew Pix volume, bill payments and savings deposits.",
+  "method.label":"How I work","method.title":"Evidence before <em>opinion.</em>",
+  "method.p1":"I'd rather read 1,800 support tickets than argue about taste.",
+  "method.p2":"I set go, pivot and stop criteria before discovery starts, not after.",
+  "method.p3":"I write my own SQL, and specs engineering doesn't have to decode.",
+  "method.try":"Try the criteria on the particles:","mode.go":"Go","mode.pivot":"Pivot","mode.stop":"Stop",
+  "method.ex":"illustrative example","method.cm":"-- question first, opinion later",
+  "build.label":"I also build","build.status":"in progress",
+  "build.body":"A practice-management platform for health professionals: scheduling, invoicing and finances in one place, so more time goes to patients. I prototyped and shipped it on my own with AI agents.",
+  "pipe.1":"prototyping","pipe.2":"versioning","pipe.3":"agent that evolves the code",
+  "build.foot":"Zero spent on credits, no vendor lock-in.","build.writing":"I also write for Product Oversee's PM Letter (in Portuguese)",
+  "contact.label":"Next chapter","contact.title":"Shall we build <em>what's next?</em>",
+  "contact.body":"I'm looking for Senior Product Manager or Product Manager roles: hybrid in Seville or Madrid, or remote across EMEA and US time zones.",
+  "contact.copy":"Copy email","contact.copied":"Copied",
+  "f.base":"Based in","f.baseV":"Spain","f.mode":"Setup","f.modeV":"Hybrid · Remote","f.lang":"Languages",
+  "foot":"Made with Three.js and {N} particles. No confidential data was harmed.",
+  "case.read":"Read the case","unit.pp":"pp",
+  "sim.title":"Go / Pivot / Stop simulator","sim.example":"example hypothesis","sim.hypL":"Hypothesis",
+  "sim.hyp":"A guided setup checklist raises week-1 activation.",
+  "sim.c":"1 · Criteria, set before discovery","sim.go":"Go if lift ≥","sim.stop":"Stop if lift &lt;",
+  "sim.guard":"Guardrail: support tickets may rise at most",
+  "sim.o":"2 · What the experiment showed","sim.lift":"Week-1 activation lift","sim.tix":"Change in support tickets",
+  "sim.lock":"Lock criteria","sim.unlock":"Unlock and start over","sim.locked":"Locked before discovery started.",
+  "sim.unlockedMsg":"Set the bar, then lock it. Results stay hidden until you do.",
+  "sim.nudge":"Criteria are locked. Moving the bar after seeing the data is exactly what this prevents.",
+  "sim.waiting":"Waiting for locked criteria.",
+  "v.go":"GO","v.pivot":"PIVOT","v.stop":"STOP",
+  "why.go":"{l} pp clears the {g} pp bar and the guardrail holds. Time to scale.",
+  "why.weak":"{l} pp is a signal, but below the {g} pp bar. Keep the problem, change the solution.",
+  "why.guard":"The lift clears the bar, but tickets rose {t}% (limit {gd}%). Keep the problem, change the solution.",
+  "why.stop":"{l} pp is under the {s} pp floor. Stop and reinvest the team's time.",
+  "ag.label":"Agentic development","ag.title":"From business pain to <em>real product.</em>",
+  "ag.body":"My setup connects three pieces: Lovable to speed up prototyping, GitHub to version and own the code, and an AI agent (OpenAI's Codex) to edit and evolve it outside the platform. That gives me freedom, no vendor lock-in and room to actually experiment.",
+  "ag.me":"Me","ag.meV":"problem framing, spec, acceptance criteria, review","ag.ai":"Agents","ag.aiV":"prototypes, code, tests, fixes",
+  "ag.replay":"illustrative replay of the loop","ag.siteK":"This site",
+  "ag.site":"This site is a builder project too. I directed it with an AI agent in one evening: concept, WebGL with {N} particles, three languages and a single HTML file.",
+  shapes:["noise","path","funnel","portfolio","data","health","network","world"],
+  chapters:["Start","Path","Now","Fintech","Method","HealHub","Agents","Contact"],
+  skills:["Product Management","Product Strategy","Product Discovery","Roadmapping","AI Products","B2B SaaS","Growth & CRO","Lead Generation","Marketing Automation","Fintech","Payments","Regulated Products","SQL","OKRs","Stakeholders","Agile"]
+ },
+ es:{
+  "loader":"Leyendo conversaciones de soporte","nav.cta":"Contacto","hud.label":"señal / ruido",
+  "hero.eyebrow":"Senior Product Manager · IA, SaaS B2B y Fintech",
+  "hero.lede":"Convierto ruido en <em>señal</em>. Conversaciones de soporte, datos sueltos y opiniones se vuelven decisiones de producto, y las decisiones, ingresos.",
+  "hero.hint":"Haz scroll y mira cómo el caos se ordena",
+  "journey.label":"Trayectoria","journey.first":"Primero","journey.firstT":"consultoría global.","journey.then":"Después","journey.thenT":"fintech regulada.","journey.thenS":"EmanaPay · la financiera de crédito directo de Natura &amp;Co","journey.today":"Hoy","journey.todayT":"growth en SaaS B2B.",
+  "journey.note":"He trabajado en consultoría, fintech early-stage y gran empresa. Me adapto al modelo operativo de cada una en vez de importar uno.",
+  "now.label":"Ahora · Senior PM de generación de leads","now.title":"Cada punto de conversión es <em>ingreso.</em>",
+  "now.body":"En RD Station Marketing (TOTVS), la principal plataforma de automatización de marketing de Latinoamérica, soy responsable de la superficie de conversión:",
+  "chip.forms":"Formularios integrados","chip.wa":"Entradas por WhatsApp","chip.track":"Seguimiento de leads",
+  "now.s1":"conversaciones de soporte","now.s2":"años de voz del cliente",
+  "now.foot":"La base para reconstruir el editor de landing pages y decidir dónde la IA aporta valor de verdad.",
+  "fin.label":"Fintech regulada · 18 meses como Senior PO","fin.title":"Donde el compliance <em>no es opcional.</em>",
+  "fin.body":"En EmanaPay lideré la squad transaccional: Pix, DDA, cuenta, extractos, ahorro y recompensas.",
+  "c1.u":"en cartera","c1.d":"Ahorro por objetivos. Lo lancé y escalé, con rendimiento de hasta el 110% del CDI.",
+  "c2.u":"en cuentas por cobrar transaccionadas","c2.d":"Anticipo de cuentas por cobrar y crédito mercantil, integrado con los cuatro registradores de Brasil: CERC, CIP, B3 y TAG.",
+  "c3.u":"integraciones","c3.d":"Débito Directo Autorizado, del discovery a la entrega.",
+  "c4.u":"boletos ↑ · ahorro ↑","c4.d":"Programa de recompensas gamificado que aumentó el volumen de Pix, pagos de boletos y aportes al ahorro.",
+  "method.label":"Cómo trabajo","method.title":"Evidencia antes que <em>opinión.</em>",
+  "method.p1":"Prefiero leer 1.800 tickets de soporte a discutir por gustos.",
+  "method.p2":"Defino los criterios de seguir, pivotar o parar antes de que empiece el discovery, no después.",
+  "method.p3":"Escribo mi propio SQL y specs que ingeniería no necesita descifrar.",
+  "method.try":"Prueba los criterios en las partículas:","mode.go":"Seguir","mode.pivot":"Pivotar","mode.stop":"Parar",
+  "method.ex":"ejemplo ilustrativo","method.cm":"-- primero la pregunta, luego la opinión",
+  "build.label":"También construyo","build.status":"en construcción",
+  "build.body":"Una plataforma de gestión para profesionales de la salud: agenda, facturación y finanzas en un solo lugar, para que quede más tiempo para la consulta. La prototipé y la puse en pie sola, con agentes de IA.",
+  "pipe.1":"prototipado","pipe.2":"versionado","pipe.3":"agente que evoluciona el código",
+  "build.foot":"Cero gasto en créditos y sin vendor lock-in.","build.writing":"También escribo en la PM Letter de Product Oversee (en portugués)",
+  "contact.label":"Próximo capítulo","contact.title":"¿Construimos <em>lo que viene?</em>",
+  "contact.body":"Busco posiciones de Senior Product Manager o Product Manager: híbrido en Sevilla o Madrid, o remoto en husos de EMEA y EE. UU.",
+  "contact.copy":"Copiar email","contact.copied":"Copiado",
+  "f.base":"Base","f.baseV":"España","f.mode":"Modalidad","f.modeV":"Híbrido · Remoto","f.lang":"Idiomas",
+  "foot":"Hecho con Three.js y {N} partículas. Ningún dato confidencial salió herido.",
+  "case.read":"Leer el caso","unit.pp":"p.p.",
+  "sim.title":"Simulador seguir / pivotar / parar","sim.example":"hipótesis de ejemplo","sim.hypL":"Hipótesis",
+  "sim.hyp":"Un checklist guiado de configuración aumenta la activación en la primera semana.",
+  "sim.c":"1 · Criterios, definidos antes del discovery","sim.go":"Seguir si la mejora es ≥","sim.stop":"Parar si la mejora es &lt;",
+  "sim.guard":"Guardrail: los tickets de soporte pueden subir como máximo",
+  "sim.o":"2 · Lo que mostró el experimento","sim.lift":"Mejora de activación en la semana 1","sim.tix":"Variación en tickets de soporte",
+  "sim.lock":"Bloquear criterios","sim.unlock":"Desbloquear y empezar de nuevo","sim.locked":"Bloqueados antes de empezar el discovery.",
+  "sim.unlockedMsg":"Define el listón y bloquéalo. Los resultados quedan ocultos hasta entonces.",
+  "sim.nudge":"Los criterios están bloqueados. Mover el listón después de ver los datos es justo lo que esto evita.",
+  "sim.waiting":"Esperando criterios bloqueados.",
+  "v.go":"SEGUIR","v.pivot":"PIVOTAR","v.stop":"PARAR",
+  "why.go":"{l} p.p. supera el listón de {g} p.p. y el guardrail se mantiene. Hora de escalar.",
+  "why.weak":"{l} p.p. es señal, pero queda por debajo del listón de {g} p.p. Se mantiene el problema, cambia la solución.",
+  "why.guard":"La mejora supera el listón, pero los tickets subieron {t}% (límite de {gd}%). Se mantiene el problema, cambia la solución.",
+  "why.stop":"{l} p.p. queda por debajo del mínimo de {s} p.p. Parar y reinvertir el tiempo del equipo.",
+  "ag.label":"Desarrollo con agentes","ag.title":"Del dolor de negocio al <em>producto real.</em>",
+  "ag.body":"Mi setup conecta tres piezas: Lovable para acelerar el prototipado, GitHub para versionar y ser dueña del código, y un agente de IA (Codex, de OpenAI) para editar y evolucionar ese código fuera de la plataforma. Eso me da libertad, sin vendor lock-in y con espacio para experimentar de verdad.",
+  "ag.me":"Yo","ag.meV":"encuadre del problema, spec, criterios de aceptación, revisión","ag.ai":"Agentes","ag.aiV":"prototipos, código, tests, correcciones",
+  "ag.replay":"replay ilustrativo del ciclo","ag.siteK":"Este sitio",
+  "ag.site":"Este sitio también es un proyecto de builder. Dirigí su construcción con un agente de IA en una noche: concepto, WebGL con {N} partículas, tres idiomas y un único archivo HTML.",
+  shapes:["ruido","trayectoria","embudo","cartera","datos","salud","red","mundo"],
+  chapters:["Inicio","Trayectoria","Ahora","Fintech","Método","HealHub","Agentes","Contacto"],
+  skills:["Gestión de Producto","Estrategia de Producto","Product Discovery","Roadmap","Productos de IA","SaaS B2B","Growth y CRO","Generación de Leads","Automatización de Marketing","Fintech","Medios de Pago","Productos Regulados","SQL","OKRs","Stakeholders","Agile"]
+ }
+};
+const SEC_COLORS = ["#A9B1D6","#B9A6FF","#FF7A4D","#F5C451","#4FD8C9","#FF8FB1","#6FA8FF","#DCE8FF"];
+const LAST = SEC_COLORS.length-1;
+const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const small = window.innerWidth < 760;
+const N = small ? 9000 : 16000;
+let lang = "en";
+let lastShape = -1;
+try { const s = localStorage.getItem("pds-lang2"); if (s && I18N[s]) lang = s; } catch(e){}
+
+const sections = Array.from(document.querySelectorAll("[data-sec]"));
+const chaptersEl = document.getElementById("chapters");
+sections.forEach((s,i)=>{
+  const li=document.createElement("li");
+  li.innerHTML='<a href="#'+s.id+'"><span></span></a>';
+  chaptersEl.appendChild(li);
+});
+const chapterLinks = Array.from(chaptersEl.querySelectorAll("a"));
+
+function applyLang(l){
+  lang=l; const d=I18N[l];
+  document.documentElement.lang = l==="pt"?"pt-BR":l;
+  document.querySelectorAll("[data-i18n]").forEach(el=>{
+    const k=el.getAttribute("data-i18n"); if(d[k]!==undefined) el.innerHTML=d[k].replace("{N}", N.toLocaleString(l==="en"?"en-US":"pt-BR"));
+  });
+  document.querySelectorAll(".lang button").forEach(b=>b.setAttribute("aria-pressed", b.dataset.lang===l?"true":"false"));
+  chapterLinks.forEach((a,i)=>a.querySelector("span").textContent=d.chapters[i]);
+  const items=d.skills.map(s=>'<span><b>'+s+'</b><i>✦</i></span>').join("");
+  document.getElementById("track").innerHTML=items+items;
+  lastShape=-1;
+  simRender();
+  if(typeof caseOpen!=="undefined" && caseOpen) renderCase(caseOpen);
+  try{ localStorage.setItem("pds-lang2", l);}catch(e){}
+}
+document.querySelectorAll(".lang button").forEach(b=>b.addEventListener("click",()=>applyLang(b.dataset.lang)));
+
+// copy email
+const copyBtn=document.getElementById("copy");
+copyBtn.addEventListener("click",()=>{
+  const t=document.getElementById("email").textContent.trim();
+  const ok=()=>{copyBtn.querySelector("span").textContent=I18N[lang]["contact.copied"]; setTimeout(()=>copyBtn.querySelector("span").textContent=I18N[lang]["contact.copy"],1800);};
+  const fallback=()=>{const r=document.createRange();r.selectNodeContents(document.getElementById("email"));const s=getSelection();s.removeAllRanges();s.addRange(r);};
+  try{ navigator.clipboard.writeText(t).then(ok,fallback);}catch(e){fallback();}
+});
+
+// loader
+const loader=document.getElementById("loader"), loadN=document.getElementById("loadN");
+const t0=performance.now();
+(function count(){const p=Math.min(1,(performance.now()-t0)/1100);loadN.textContent=Math.round(1800*(1-Math.pow(1-p,3))).toLocaleString("pt-BR");
+  if(p<1)requestAnimationFrame(count);else setTimeout(()=>loader.classList.add("done"),180);})();
+
+// ---------- go / pivot / stop simulator ----------
+const $=id=>document.getElementById(id);
+const goT=$("goT"),stopT=$("stopT"),guardT=$("guardT"),liftI=$("lift"),tixI=$("tix");
+let simLocked=true, simTouched=false, lastVerdict=null, nudgeTimer=0;
+const prevC={goT:goT.value,stopT:stopT.value,guardT:guardT.value}, prevO={lift:liftI.value,tix:tixI.value};
+function nf(v){const loc=lang==="en"?"en-US":(lang==="es"?"es-ES":"pt-BR");return new Intl.NumberFormat(loc,{minimumFractionDigits:1,maximumFractionDigits:1}).format(Math.abs(v));}
+function sg(v){return (v<0?"−":"+")+nf(v);}
+function sgi(v){return (v<0?"−":"+")+Math.abs(v);}
+function simRender(){
+  const d=I18N[lang], pp=" "+d["unit.pp"];
+  const g=+goT.value,s=+stopT.value,gd=+guardT.value,l=+liftI.value,t=+tixI.value;
+  $("goO").textContent=sg(g)+pp; $("stopO").textContent=sg(s)+pp; $("guardO").textContent="+"+gd+"%";
+  $("liftO").textContent=simLocked?sg(l)+pp:"?"; $("tixO").textContent=simLocked?sgi(t)+"%":"?";
+  const min=-3,max=10,pct=v=>(v-min)/(max-min)*100;
+  $("zStop").style.width=pct(s)+"%"; $("zPivot").style.left=pct(s)+"%"; $("zPivot").style.width=(pct(g)-pct(s))+"%";
+  $("zGo").style.left=pct(g)+"%"; $("zGo").style.width=(100-pct(g))+"%";
+  $("zStop").textContent=d["v.stop"]; $("zPivot").textContent=d["v.pivot"]; $("zGo").textContent=d["v.go"];
+  $("mark").style.left=pct(l)+"%"; $("mark").hidden=!simLocked;
+  $("crit").dataset.locked=String(simLocked); $("obs").dataset.locked=String(!simLocked);
+  [goT,stopT,guardT].forEach(x=>x.setAttribute("aria-disabled",String(simLocked)));
+  [liftI,tixI].forEach(x=>x.setAttribute("aria-disabled",String(!simLocked)));
+  $("lock").querySelector("span").textContent=simLocked?d["sim.unlock"]:d["sim.lock"];
+  $("lockMsg").textContent=simLocked?d["sim.locked"]:d["sim.unlockedMsg"];
+  let v=null,why=d["sim.waiting"];
+  if(simLocked){
+    if(l<s){v="stop";why=d["why.stop"];}
+    else if(l>=g&&t<=gd){v="go";why=d["why.go"];}
+    else if(l>=g){v="pivot";why=d["why.guard"];}
+    else{v="pivot";why=d["why.weak"];}
+  }
+  why=why.replace("{l}",sg(l)).replace("{g}",sg(g)).replace("{s}",sg(s)).replace("{t}",sgi(t)).replace("{gd}",gd);
+  $("verdict").dataset.v=v||"none"; $("vWord").textContent=v?d["v."+v]:"—"; $("vWhy").textContent=why;
+  if(simTouched && v!==lastVerdict && window.__pm) window.__pm(v);
+  lastVerdict=v;
+}
+function nudge(){const n=$("nudge");n.textContent=I18N[lang]["sim.nudge"];n.hidden=false;clearTimeout(nudgeTimer);nudgeTimer=setTimeout(()=>n.hidden=true,3200);}
+[goT,stopT,guardT].forEach(el=>el.addEventListener("input",()=>{
+  if(simLocked){el.value=prevC[el.id];nudge();return;}
+  if(+stopT.value>=+goT.value){ if(el===stopT) goT.value=Math.min(8,+stopT.value+0.5); else stopT.value=Math.max(0,+goT.value-0.5); }
+  prevC.goT=goT.value;prevC.stopT=stopT.value;prevC.guardT=guardT.value; simRender();
+}));
+[liftI,tixI].forEach(el=>el.addEventListener("input",()=>{
+  if(!simLocked){el.value=prevO[el.id];return;}
+  prevO[el.id]=el.value; simTouched=true; simRender();
+}));
+$("lock").addEventListener("click",()=>{simLocked=!simLocked;simTouched=true;$("nudge").hidden=true;simRender();});
+
+// ---------- agent loop replay ----------
+const REPLAY=[
+ '<span class="p">$</span> cat specs/recurring-appointments.md',
+ '<span class="dim">  problem: therapists rebook the same weekly slot by hand</span>',
+ '<span class="dim">  done when: 6 acceptance criteria pass</span>',
+ '<span class="p">$</span> lovable prototype --screens agenda    <span class="ok">✓ 3 screens</span>',
+ '<span class="p">$</span> git push origin feat/recurring        <span class="ok">✓ versioned</span>',
+ '<span class="p">$</span> codex "implement recurring appointments per spec"',
+ '<span class="dim">  ✎ 5 files changed · 12 tests added</span>',
+ '<span class="p">$</span> review --by priscila',
+ '<span class="err">  ✗ reminder fires in the wrong time zone</span>',
+ '<span class="p">$</span> codex "fix reminder time zone, add a test"',
+ '<span class="ok">  ✓ 13/13 tests passing</span>',
+ '<span class="p">$</span> merge &amp;&amp; deploy --preview           <span class="ok">✓ live</span>'
+];
+const replayEl=$("replay");
+replayEl.innerHTML=REPLAY.join("\n")+'<span class="caret"></span>';
+if(!reduce && "IntersectionObserver" in window){
+  let running=false;
+  const play=()=>{let i=0;replayEl.innerHTML='<span class="caret"></span>';
+    const step=()=>{ if(i<REPLAY.length){replayEl.innerHTML=REPLAY.slice(0,++i).join("\n")+'<span class="caret"></span>';setTimeout(step,i===REPLAY.length?6000:520);} else play(); };
+    step();};
+  new IntersectionObserver((es,o)=>{if(es[0].isIntersecting&&!running){running=true;o.disconnect();play();}},{threshold:.4}).observe(replayEl);
+}
+
+// ---------- case studies ----------
+const CASES={
+en:{
+ meus:{k:"Meus Sonhos",title:"Goal-based savings inside a regulated account",meta:["Senior Product Owner","EmanaPay · Natura &Co","Discovery → launch → scale"],
+  out:[["R$75M","in savings balances"],["110%","of CDI, maximum yield"]],
+  b:[["Context","EmanaPay is the direct-credit company (SCD) of Natura &Co. Its account already handled everyday money: Pix, bills and statements. Transactions bring people in. A reason to keep money in the account is what makes them stay."],
+   ["Problem","Generic savings asks people to set money aside “for later”, which rarely wins against today's expenses. The product needed to feel personal and still fit the rules of a regulated institution."],
+   ["What I did","Framed savings around named goals instead of a single balance, so every deposit moves a visible dream forward. Set a competitive yield of up to 110% of CDI, and worked with legal, risk and finance so custody, yield and disclosures were compliant from day one. Connected deposits to the EmanaPay+ rewards program to reward the habit, not only the balance."],
+   ["Key trade-off","Rate versus margin. A higher yield attracts balances but compresses margin. Goal framing let the product compete on motivation, so the rate didn't have to carry the whole value proposition."],
+   ["Learning","In regulated products, compliance is a design input, not a final gate. Bringing legal and risk into discovery made the launch faster, not slower."]]},
+ payhop:{k:"PayHop",title:"Receivables prepayment across all four registrars",meta:["Product","PayHop","Merchant credit · Integrations"],
+  out:[["R$1B+","in receivables transacted"],["4 of 4","registrars integrated"]],
+  b:[["Context","Merchants sell on card and wait weeks to get paid. Prepaying those receivables, or using them as collateral for merchant credit, turns future sales into working capital today."],
+   ["Problem","Under Brazil's receivables registry rules, every card receivable is recorded at a registrar: CERC, CIP, B3 or TAG. A credit product connected to only one of them sees part of a merchant's book and prices risk half blind."],
+   ["What I did","Led the integration with all four registrars so the product could read the full picture: payment schedules, existing liens and contract registration. Turned four different interfaces into one consistent flow for operations and for the merchant."],
+   ["Key trade-off","Speed versus coverage. Launching on a single registrar would have been faster, but partial visibility means mispriced risk. Full coverage came first."],
+   ["Learning","In credit infrastructure, the data is the product. The flow the merchant sees only works when the plumbing underneath is complete and reconciled."]]},
+ dda:{k:"DDA",title:"Authorized Direct Debit, from discovery to delivery",meta:["Senior Product Owner","EmanaPay","Payments · Integrations"],
+  out:[["Dock + Núclea","integrated"],["0 → 1","discovery to delivery"]],
+  b:[["Context","DDA (Débito Direto Autorizado) lets account holders see the bank slips (boletos) issued in their name inside their own banking app, before they pay them."],
+   ["Problem","Without DDA, users had to scan or type every boleto. That adds friction to a recurring task, creates room for error and pushes payment volume to other apps."],
+   ["What I did","Took the feature from discovery to delivery. Integrated with Dock, the banking-as-a-service provider, and with Núclea, the interbank infrastructure that runs DDA. Designed the flows for opt-in, listing and paying slips, including the edge cases every payment product has: due dates, changing amounts and duplicates."],
+   ["Key trade-off","Two external partners means two roadmaps you don't control. Clear failure states and well-tested integrations mattered more than extra features."],
+   ["Learning","In payments, the unhappy paths are the product. Users forgive a missing feature. They don't forgive a wrong payment."]]},
+ plus:{k:"EmanaPay+",title:"Rewards that build everyday habits",meta:["Senior Product Owner","EmanaPay","Engagement · Gamification"],
+  out:[["Pix ↑","transaction volume"],["Bills ↑ · Savings ↑","payments and deposits"]],
+  b:[["Context","A digital account earns its place when people use it every week. Pix, bill payments and savings are the behaviors that make an account part of someone's routine."],
+   ["Problem","Users had the features but not the habit. They needed a reason to choose EmanaPay for everyday transactions instead of another app."],
+   ["What I did","Designed a gamified rewards program built around the behaviors that matter to the business: sending Pix, paying bills and depositing into savings. Every reward maps to a transaction the business wants more of, so the incentive and the strategy point the same way."],
+   ["Key trade-off","Generous rewards versus sustainable cost. Rewards had to change behavior without paying for transactions that would have happened anyway."],
+   ["Learning","Gamification works when it rewards a real habit, not a vanity action."]]},
+ lp:{k:"Landing page editor",title:"Rebuilding an editor from the voice of the customer",meta:["Senior PM, Lead Generation","RD Station Marketing · TOTVS","In progress"],
+  out:[["1,800+","support conversations"],["2 years","of voice-of-customer data"]],
+  b:[["Context","Landing pages are where a marketing team's traffic turns into leads. In a marketing automation platform, the editor is the first step of the conversion surface."],
+   ["Problem","Opinions about what to fix were everywhere. The evidence was scattered across support conversations and years of customer feedback."],
+   ["What I'm doing","Reading the evidence first: more than 1,800 support conversations and two years of voice-of-customer data, grouped into recurring problems. Setting go, pivot and stop criteria before discovery starts, and defining where AI actually adds value instead of adding it everywhere."],
+   ["Key trade-off","Rebuild versus iterate. A rebuild is justified only where the evidence shows structural problems. Everything else gets fixed in place."],
+   ["Note","This is a live project, so details stay at a level that respects confidentiality."]]}
+},
+pt:{
+ meus:{k:"Meus Sonhos",title:"Poupança por objetivos dentro de uma conta regulada",meta:["Senior Product Owner","EmanaPay · Natura &Co","Discovery → lançamento → escala"],
+  out:[["R$75M","em carteira"],["110%","do CDI, rendimento máximo"]],
+  b:[["Contexto","A EmanaPay é a sociedade de crédito direto (SCD) da Natura &Co. A conta já resolvia o dinheiro do dia a dia: Pix, boletos e extratos. Transação traz as pessoas. Um motivo para deixar o dinheiro na conta é o que faz elas ficarem."],
+   ["Problema","Poupança genérica pede que a pessoa guarde dinheiro “para depois”, e isso raramente vence as despesas de hoje. O produto precisava parecer pessoal e, ao mesmo tempo, caber nas regras de uma instituição regulada."],
+   ["O que eu fiz","Organizei a poupança em torno de objetivos com nome, em vez de um saldo único, para que cada aporte fizesse um sonho visível avançar. Defini um rendimento competitivo, de até 110% do CDI, e trabalhei com jurídico, risco e finanças para que custódia, rendimento e informações ao cliente estivessem em compliance desde o primeiro dia. Conectei os aportes ao programa de recompensas EmanaPay+ para premiar o hábito, não só o saldo."],
+   ["Principal trade-off","Taxa versus margem. Rendimento maior atrai saldo, mas comprime margem. Os objetivos deixaram o produto competir pela motivação, e a taxa não precisou carregar toda a proposta de valor."],
+   ["Aprendizado","Em produto regulado, compliance é insumo de design, não um portão no final. Trazer jurídico e risco para o discovery deixou o lançamento mais rápido, não mais lento."]]},
+ payhop:{k:"PayHop",title:"Antecipação de recebíveis nas quatro registradoras",meta:["Produto","PayHop","Crédito mercantil · Integrações"],
+  out:[["R$1B+","em recebíveis transacionados"],["4 de 4","registradoras integradas"]],
+  b:[["Contexto","O lojista vende no cartão e espera semanas para receber. Antecipar esses recebíveis, ou usá-los como garantia de crédito mercantil, transforma vendas futuras em capital de giro hoje."],
+   ["Problema","Pelas regras de registro de recebíveis no Brasil, todo recebível de cartão fica registrado em uma registradora: CERC, CIP, B3 ou TAG. Um produto de crédito ligado a apenas uma delas enxerga só parte da agenda do lojista e precifica risco no escuro."],
+   ["O que eu fiz","Liderei a integração com as quatro registradoras para que o produto lesse o quadro completo: agenda de recebíveis, gravames existentes e registro de contratos. Transformei quatro interfaces diferentes em um único fluxo consistente para a operação e para o lojista."],
+   ["Principal trade-off","Velocidade versus cobertura. Lançar com uma registradora só seria mais rápido, mas visibilidade parcial significa risco mal precificado. Cobertura completa veio primeiro."],
+   ["Aprendizado","Em infraestrutura de crédito, o dado é o produto. O fluxo que o lojista vê só funciona quando o encanamento por baixo está completo e conciliado."]]},
+ dda:{k:"DDA",title:"Débito Direto Autorizado, do discovery à entrega",meta:["Senior Product Owner","EmanaPay","Pagamentos · Integrações"],
+  out:[["Dock + Núclea","integrados"],["0 → 1","do discovery à entrega"]],
+  b:[["Contexto","O DDA (Débito Direto Autorizado) permite que o cliente veja, dentro do próprio app do banco, os boletos emitidos no nome dele antes de pagar."],
+   ["Problema","Sem DDA, o usuário precisava escanear ou digitar cada boleto. Isso adiciona atrito a uma tarefa recorrente, abre espaço para erro e empurra volume de pagamento para outros apps."],
+   ["O que eu fiz","Levei a funcionalidade do discovery à entrega. Integrei com a Dock, provedora de banking as a service, e com a Núclea, a infraestrutura interbancária que opera o DDA. Desenhei os fluxos de adesão, listagem e pagamento de boletos, incluindo os casos de borda que todo produto de pagamento tem: vencimento, valores que mudam e duplicidade."],
+   ["Principal trade-off","Dois parceiros externos significam dois roadmaps que você não controla. Estados de erro claros e integrações bem testadas importaram mais do que funcionalidades extras."],
+   ["Aprendizado","Em pagamentos, o caminho infeliz é o produto. O usuário perdoa uma funcionalidade que falta. Não perdoa um pagamento errado."]]},
+ plus:{k:"EmanaPay+",title:"Recompensas que constroem hábito",meta:["Senior Product Owner","EmanaPay","Engajamento · Gamificação"],
+  out:[["Pix ↑","volume transacionado"],["Boletos ↑ · Poupança ↑","pagamentos e aportes"]],
+  b:[["Contexto","Uma conta digital conquista seu lugar quando as pessoas usam toda semana. Pix, pagamento de boletos e poupança são os comportamentos que colocam a conta na rotina de alguém."],
+   ["Problema","Os usuários tinham as funcionalidades, mas não o hábito. Faltava um motivo para escolher a EmanaPay nas transações do dia a dia em vez de outro app."],
+   ["O que eu fiz","Desenhei um programa de recompensas gamificado em torno dos comportamentos que importam para o negócio: enviar Pix, pagar boletos e aportar na poupança. Cada recompensa corresponde a uma transação que o negócio quer aumentar, para que incentivo e estratégia apontem na mesma direção."],
+   ["Principal trade-off","Recompensa generosa versus custo sustentável. O programa precisava mudar comportamento sem pagar por transações que aconteceriam de qualquer jeito."],
+   ["Aprendizado","Gamificação funciona quando recompensa um hábito real, não uma ação de vaidade."]]},
+ lp:{k:"Editor de landing pages",title:"Reconstruindo um editor a partir da voz do cliente",meta:["Senior PM, Geração de Leads","RD Station Marketing · TOTVS","Em andamento"],
+  out:[["1.800+","conversas de suporte"],["2 anos","de voz do cliente"]],
+  b:[["Contexto","Landing pages são onde o tráfego de um time de marketing vira lead. Numa plataforma de automação de marketing, o editor é o primeiro passo da superfície de conversão."],
+   ["Problema","Opinião sobre o que corrigir havia de sobra. A evidência estava espalhada entre conversas de suporte e anos de feedback de clientes."],
+   ["O que estou fazendo","Lendo a evidência primeiro: mais de 1.800 conversas de suporte e dois anos de dados de voz do cliente, agrupados em problemas recorrentes. Definindo critérios de seguir, pivotar e parar antes de o discovery começar, e definindo onde a IA de fato agrega valor, em vez de colocá-la em tudo."],
+   ["Principal trade-off","Reconstruir versus iterar. Reconstruir só se justifica onde a evidência mostra problema estrutural. O resto é corrigido no lugar."],
+   ["Observação","É um projeto em andamento, então os detalhes ficam num nível que respeita a confidencialidade."]]}
+},
+es:{
+ meus:{k:"Meus Sonhos",title:"Ahorro por objetivos dentro de una cuenta regulada",meta:["Senior Product Owner","EmanaPay · Natura &Co","Discovery → lanzamiento → escala"],
+  out:[["R$75M","en cartera"],["110%","del CDI, rendimiento máximo"]],
+  b:[["Contexto","EmanaPay es la sociedad de crédito directo (SCD) de Natura &Co. La cuenta ya resolvía el dinero del día a día: Pix, boletos y extractos. Las transacciones atraen a la gente. Un motivo para dejar el dinero en la cuenta es lo que hace que se quede."],
+   ["Problema","El ahorro genérico pide guardar dinero “para después”, y eso rara vez le gana a los gastos de hoy. El producto tenía que sentirse personal y, al mismo tiempo, cumplir las reglas de una institución regulada."],
+   ["Lo que hice","Organicé el ahorro alrededor de objetivos con nombre en vez de un saldo único, para que cada aporte hiciera avanzar un sueño visible. Definí un rendimiento competitivo, de hasta el 110% del CDI, y trabajé con legal, riesgo y finanzas para que custodia, rendimiento e información al cliente cumplieran la normativa desde el primer día. Conecté los aportes al programa de recompensas EmanaPay+ para premiar el hábito, no solo el saldo."],
+   ["Trade-off clave","Tasa frente a margen. Más rendimiento atrae saldo, pero reduce el margen. Los objetivos permitieron competir por motivación, así que la tasa no tuvo que cargar con toda la propuesta de valor."],
+   ["Aprendizaje","En productos regulados, el compliance es un insumo de diseño, no una puerta al final. Llevar a legal y riesgo al discovery hizo el lanzamiento más rápido, no más lento."]]},
+ payhop:{k:"PayHop",title:"Anticipo de cuentas por cobrar en los cuatro registradores",meta:["Producto","PayHop","Crédito mercantil · Integraciones"],
+  out:[["R$1B+","en cuentas por cobrar transaccionadas"],["4 de 4","registradores integrados"]],
+  b:[["Contexto","El comercio vende con tarjeta y espera semanas para cobrar. Anticipar esas cuentas por cobrar, o usarlas como garantía de crédito mercantil, convierte ventas futuras en capital de trabajo hoy."],
+   ["Problema","Según las reglas brasileñas de registro de cuentas por cobrar, cada venta con tarjeta queda registrada en un registrador: CERC, CIP, B3 o TAG. Un producto de crédito conectado a solo uno ve una parte de la agenda del comercio y pone precio al riesgo a medias."],
+   ["Lo que hice","Lideré la integración con los cuatro registradores para que el producto leyera el cuadro completo: agenda de cobros, gravámenes existentes y registro de contratos. Convertí cuatro interfaces distintas en un único flujo coherente para operaciones y para el comercio."],
+   ["Trade-off clave","Velocidad frente a cobertura. Lanzar con un solo registrador habría sido más rápido, pero la visibilidad parcial significa riesgo mal valorado. La cobertura completa fue primero."],
+   ["Aprendizaje","En infraestructura de crédito, el dato es el producto. El flujo que ve el comercio solo funciona cuando la fontanería de abajo está completa y conciliada."]]},
+ dda:{k:"DDA",title:"Débito Directo Autorizado, del discovery a la entrega",meta:["Senior Product Owner","EmanaPay","Pagos · Integraciones"],
+  out:[["Dock + Núclea","integrados"],["0 → 1","del discovery a la entrega"]],
+  b:[["Contexto","El DDA (Débito Directo Autorizado) permite que el cliente vea, dentro de su propia app bancaria, los boletos emitidos a su nombre antes de pagarlos."],
+   ["Problema","Sin DDA, el usuario tenía que escanear o escribir cada boleto. Eso añade fricción a una tarea recurrente, abre espacio al error y desvía volumen de pagos a otras apps."],
+   ["Lo que hice","Llevé la funcionalidad del discovery a la entrega. Integré con Dock, proveedor de banking as a service, y con Núclea, la infraestructura interbancaria que opera el DDA. Diseñé los flujos de alta, listado y pago de boletos, con los casos límite que tiene todo producto de pagos: vencimientos, importes que cambian y duplicados."],
+   ["Trade-off clave","Dos socios externos son dos roadmaps que no controlas. Estados de error claros e integraciones bien probadas importaron más que funcionalidades extra."],
+   ["Aprendizaje","En pagos, los caminos infelices son el producto. El usuario perdona una funcionalidad que falta. No perdona un pago equivocado."]]},
+ plus:{k:"EmanaPay+",title:"Recompensas que crean hábito",meta:["Senior Product Owner","EmanaPay","Engagement · Gamificación"],
+  out:[["Pix ↑","volumen transaccionado"],["Boletos ↑ · Ahorro ↑","pagos y aportes"]],
+  b:[["Contexto","Una cuenta digital se gana su sitio cuando la gente la usa cada semana. Pix, pago de boletos y ahorro son los comportamientos que la meten en la rutina de alguien."],
+   ["Problema","Los usuarios tenían las funcionalidades, pero no el hábito. Faltaba un motivo para elegir EmanaPay en las transacciones del día a día en lugar de otra app."],
+   ["Lo que hice","Diseñé un programa de recompensas gamificado alrededor de los comportamientos que importan al negocio: enviar Pix, pagar boletos y aportar al ahorro. Cada recompensa corresponde a una transacción que el negocio quiere aumentar, para que incentivo y estrategia apunten en la misma dirección."],
+   ["Trade-off clave","Recompensa generosa frente a coste sostenible. El programa debía cambiar el comportamiento sin pagar por transacciones que habrían ocurrido de todos modos."],
+   ["Aprendizaje","La gamificación funciona cuando premia un hábito real, no una acción de vanidad."]]},
+ lp:{k:"Editor de landing pages",title:"Reconstruir un editor desde la voz del cliente",meta:["Senior PM, Generación de Leads","RD Station Marketing · TOTVS","En curso"],
+  out:[["1.800+","conversaciones de soporte"],["2 años","de voz del cliente"]],
+  b:[["Contexto","Las landing pages son donde el tráfico de un equipo de marketing se convierte en leads. En una plataforma de automatización de marketing, el editor es el primer paso de la superficie de conversión."],
+   ["Problema","Opiniones sobre qué arreglar había de sobra. La evidencia estaba repartida entre conversaciones de soporte y años de feedback de clientes."],
+   ["Lo que estoy haciendo","Leer primero la evidencia: más de 1.800 conversaciones de soporte y dos años de datos de voz del cliente, agrupados en problemas recurrentes. Definir criterios de seguir, pivotar y parar antes de que empiece el discovery, y decidir dónde la IA aporta valor de verdad en vez de ponerla en todo."],
+   ["Trade-off clave","Reconstruir frente a iterar. Reconstruir solo se justifica donde la evidencia muestra un problema estructural. El resto se corrige en su sitio."],
+   ["Nota","Es un proyecto en curso, así que los detalles se mantienen a un nivel que respeta la confidencialidad."]]}
+}};
+const caseOv=$("caseOv"), casePanel=$("casePanel");
+let caseOpen=null, caseReturn=null;
+function renderCase(id){
+  const c=CASES[lang][id]; if(!c) return;
+  $("caseK").textContent=c.k; $("caseTitle").textContent=c.title;
+  $("caseMeta").innerHTML=c.meta.map(m=>"<li>"+m+"</li>").join("");
+  $("caseOut").innerHTML=c.out.map(o=>'<div class="stat"><b>'+o[0]+"</b><span>"+o[1]+"</span></div>").join("");
+  $("caseBody").innerHTML=c.b.map(x=>"<div class=\"cb\"><h3>"+x[0]+"</h3><p>"+x[1]+"</p></div>").join("");
+}
+function openCase(id,from){
+  caseOpen=id; caseReturn=from||null; renderCase(id);
+  caseOv.hidden=false; document.body.style.overflow="hidden"; casePanel.scrollTop=0;
+  requestAnimationFrame(()=>caseOv.classList.add("in")); $("caseClose").focus();
+}
+function closeCase(){
+  if(!caseOpen) return; caseOpen=null; caseOv.classList.remove("in"); document.body.style.overflow="";
+  setTimeout(()=>{caseOv.hidden=true;},250); if(caseReturn) caseReturn.focus();
+}
+document.querySelectorAll("[data-case]").forEach(b=>b.addEventListener("click",()=>openCase(b.dataset.case,b)));
+$("caseClose").addEventListener("click",closeCase);
+caseOv.addEventListener("click",e=>{if(e.target===caseOv)closeCase();});
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeCase();});
+
+applyLang(lang);
+
+// HUD + scroll mapping
+const hudBar=document.getElementById("hudBar"), hudPct=document.getElementById("hudPct"), hudShape=document.getElementById("hudShape");
+function scrollMorph(){
+  const y=window.scrollY + window.innerHeight*0.5;
+  const c=sections.map(s=>s.offsetTop + s.offsetHeight*0.5);
+  if(y<=c[0]) return 0;
+  for(let i=0;i<c.length-1;i++){
+    if(y<c[i+1]){ const f=(y-c[i])/(c[i+1]-c[i]); const e=smooth(0.2,0.8,f); return i+e; }
+  }
+  return c.length-1;
+}
+function smooth(a,b,x){const t=Math.min(1,Math.max(0,(x-a)/(b-a)));return t*t*(3-2*t);}
+function updateChrome(m){
+  const idx=Math.round(m);
+  hudBar.style.width=(m/LAST*100).toFixed(1)+"%";
+  hudPct.textContent=String(Math.round(m/LAST*100)).padStart(3,"0")+"%";
+  if(idx!==lastShape){
+    lastShape=idx;
+    hudShape.textContent=I18N[lang].shapes[idx];
+    document.documentElement.style.setProperty("--sec", SEC_COLORS[idx]);
+    chapterLinks.forEach((a,i)=>a.classList.toggle("on", i===idx));
+  }
+}
+
+// ---------- WebGL ----------
+let morph=0, targetMorph=0;
+if(!window.THREE){ window.addEventListener("scroll",()=>updateChrome(scrollMorph()),{passive:true}); updateChrome(scrollMorph()); return; }
+
+const canvas=document.getElementById("gl");
+let renderer;
+try{ renderer=new THREE.WebGLRenderer({canvas, antialias:false, alpha:false, powerPreference:"high-performance"}); }
+catch(e){ window.addEventListener("scroll",()=>updateChrome(scrollMorph()),{passive:true}); updateChrome(scrollMorph()); return; }
+const DPR=Math.min(window.devicePixelRatio||1, 2);
+renderer.setPixelRatio(DPR);
+renderer.setClearColor(0x090B12,1);
+const scene=new THREE.Scene();
+const camera=new THREE.PerspectiveCamera(45, 1, 0.1, 100);
+camera.position.set(0,0,8);
+
+const R=Math.random, TAU=Math.PI*2;
+function gauss(){return (R()+R()+R()-1.5)/1.5;}
+function sphereDir(){const u=R()*2-1,a=R()*TAU,s=Math.sqrt(1-u*u);return [s*Math.cos(a),u,s*Math.sin(a)];}
+
+function shapeNoise(){const a=new Float32Array(N*3);for(let i=0;i<N;i++){const d=sphereDir();const r=(R()<.08?2.6+R()*2.6:2.5*Math.cbrt(R()));a.set([d[0]*r*1.25,d[1]*r,d[2]*r],i*3);}return a;}
+function shapeHelix(){const a=new Float32Array(N*3);const nodes=[.17,.5,.83];
+  const pt=(t,s)=>{const ang=t*Math.PI*6+s*Math.PI;return [(t-.5)*6.4,Math.cos(ang)*.85,Math.sin(ang)*.85];};
+  for(let i=0;i<N;i++){const r=R();let p;
+    if(r<.16){const n=nodes[i%3];const d=sphereDir();const rr=.38*Math.cbrt(R());const c=pt(n,0),c2=pt(n,1);p=[(c[0]+c2[0])/2+d[0]*rr,d[1]*rr,d[2]*rr];}
+    else if(r<.32){const k=Math.floor(R()*30)/30;const A=pt(k,0),B=pt(k,1),u=R();p=[A[0]+(B[0]-A[0])*u,A[1]+(B[1]-A[1])*u,A[2]+(B[2]-A[2])*u];}
+    else{p=pt(R(),i%2);p[0]+=gauss()*.04;p[1]+=gauss()*.07;p[2]+=gauss()*.07;}
+    a.set(p,i*3);}return a;}
+function shapeFunnel(){const a=new Float32Array(N*3);for(let i=0;i<N;i++){let p;
+    if(R()<.82){const u=Math.pow(R(),.8);const y=2.2-u*3.6;const r=.16+1.95*Math.pow((y+1.4)/3.6,1.7);const an=R()*TAU;p=[Math.cos(an)*r+gauss()*.03,y+gauss()*.02,Math.sin(an)*r+gauss()*.03];}
+    else{const k=Math.floor(R()*9);const d=sphereDir();const rr=.09*Math.cbrt(R());p=[d[0]*rr,-1.6-k*.27+d[1]*rr,d[2]*rr];}
+    a.set(p,i*3);}return a;}
+function shapeCoins(){const a=new Float32Array(N*3);const stacks=[3,5,8,12],xs=[-1.65,-.55,.55,1.65];const coins=[];
+  stacks.forEach((n,s)=>{for(let k=0;k<n;k++)coins.push([xs[s],-1.7+k*.27]);});
+  for(let i=0;i<N;i++){const c=coins[Math.floor(R()*coins.length)];const an=R()*TAU;let p;
+    if(R()<.6){const r=.44;p=[c[0]+Math.cos(an)*r,c[1]+R()*.12,Math.sin(an)*r];}
+    else{const r=.44*Math.sqrt(R());p=[c[0]+Math.cos(an)*r,c[1]+.12,Math.sin(an)*r];}
+    a.set(p,i*3);}return a;}
+function shapeLattice(){const a=new Float32Array(N*3);const n=5,s=.72,o=n*s/2;
+  for(let i=0;i<N;i++){let p;const ax=Math.floor(R()*3);
+    if(R()<.12){p=[Math.floor(R()*(n+1))*s-o,Math.floor(R()*(n+1))*s-o,Math.floor(R()*(n+1))*s-o];const d=sphereDir(),rr=.06*Math.cbrt(R());p=[p[0]+d[0]*rr,p[1]+d[1]*rr,p[2]+d[2]*rr];}
+    else{p=[Math.floor(R()*(n+1))*s-o,Math.floor(R()*(n+1))*s-o,Math.floor(R()*(n+1))*s-o];p[ax]=R()*n*s-o;}
+    a.set([p[0]+gauss()*.01,p[1]+gauss()*.01,p[2]+gauss()*.01],i*3);}return a;}
+function shapePlus(){const a=new Float32Array(N*3);const boxes=[[3.4,1.05,1.05],[1.05,3.4,1.05]];
+  const inside=(p,b)=>Math.abs(p[0])<b[0]/2-.001&&Math.abs(p[1])<b[1]/2-.001&&Math.abs(p[2])<b[2]/2-.001;
+  for(let i=0;i<N;i++){let p,tries=0;do{const bi=Math.floor(R()*2),b=boxes[bi];p=[(R()-.5)*b[0],(R()-.5)*b[1],(R()-.5)*b[2]];
+      const areas=[b[1]*b[2],b[0]*b[2],b[0]*b[1]];const tot=areas[0]+areas[1]+areas[2];let r=R()*tot,ax=0;while(r>areas[ax]){r-=areas[ax];ax++;}
+      p[ax]=(R()<.5?-1:1)*b[ax]/2; if(!inside(p,boxes[1-bi]))break;}while(++tries<8);
+    a.set(p,i*3);}return a;}
+function shapeGlobe(){const a=new Float32Array(N*3);const Rg=1.85;
+  const ll=(lat,lon,h)=>{const la=lat*Math.PI/180,lo=lon*Math.PI/180,r=Rg*(1+(h||0));return [r*Math.cos(la)*Math.sin(lo),r*Math.sin(la),r*Math.cos(la)*Math.cos(lo)];};
+  const cities=[[37.39,-5.98],[40.42,-3.70],[-23.55,-46.63]];
+  for(let i=0;i<N;i++){const r=R();let p;
+    if(r<.68){const band=Math.floor(R()*17);const lat=-80+band*10+gauss()*.8;p=ll(lat,R()*360,0);}
+    else if(r<.84){const an=R()*TAU,rr=2.75+gauss()*.03;const x=Math.cos(an)*rr,z=Math.sin(an)*rr;const tl=.38;p=[x,z*Math.sin(tl)+gauss()*.02,z*Math.cos(tl)];}
+    else if(r<.93){const t=R();const A=cities[2],B=cities[0];const lat=A[0]+(B[0]-A[0])*t,lon=A[1]+(B[1]-A[1])*t;p=ll(lat,lon,Math.sin(t*Math.PI)*.28);}
+    else{const c=cities[i%3];const d=sphereDir(),rr=.09*Math.cbrt(R());const q=ll(c[0],c[1],.01);p=[q[0]+d[0]*rr,q[1]+d[1]*rr,q[2]+d[2]*rr];}
+    a.set(p,i*3);}return a;}
+
+function shapeNetwork(){const a=new Float32Array(N*3);const nodes=[[0,0,0]];const K=11;
+  for(let k=0;k<K;k++){const y=1-2*(k+.5)/K,r=Math.sqrt(1-y*y),th=k*2.39996,rad=2+((k*37)%5)*.12;nodes.push([Math.cos(th)*r*rad*1.15,y*rad*.95,Math.sin(th)*r*rad]);}
+  const edges=[];for(let k=1;k<=K;k++){edges.push([0,k],[0,k]);edges.push([k,k%K+1]);}
+  edges.push([1,5],[3,8],[6,10],[2,9]);
+  for(let i=0;i<N;i++){let p;
+    if(R()<.24){const hub=R()<.4;const n=hub?nodes[0]:nodes[1+Math.floor(R()*K)];const d=sphereDir(),rr=(hub?.42:.17)*Math.cbrt(R());p=[n[0]+d[0]*rr,n[1]+d[1]*rr,n[2]+d[2]*rr];}
+    else{const e=edges[Math.floor(R()*edges.length)],A=nodes[e[0]],B=nodes[e[1]],u=R();p=[A[0]+(B[0]-A[0])*u+gauss()*.02,A[1]+(B[1]-A[1])*u+gauss()*.02,A[2]+(B[2]-A[2])*u+gauss()*.02];}
+    a.set(p,i*3);}return a;}
+
+const geo=new THREE.BufferGeometry();
+geo.setAttribute("position", new THREE.BufferAttribute(shapeNoise(),3));
+const gens=[shapeHelix,shapeFunnel,shapeCoins,shapeLattice,shapePlus,shapeNetwork,shapeGlobe];
+gens.forEach((g,i)=>geo.setAttribute("p"+(i+1), new THREE.BufferAttribute(g(),3)));
+const rnd=new Float32Array(N*4);for(let i=0;i<N*4;i++)rnd[i]=R();
+geo.setAttribute("rnd", new THREE.BufferAttribute(rnd,4));
+
+const uniforms={uMorph:{value:0},uTime:{value:0},uSize:{value:small?20:17},uPixel:{value:DPR},uMouse:{value:new THREE.Vector3(99,99,0)},uMouseOn:{value:0},uSwirl:{value:0},uDim:{value:1}};
+SEC_COLORS.forEach((c,i)=>uniforms["uC"+i]={value:new THREE.Color(c)});
+
+const vs=`
+attribute vec3 p1;attribute vec3 p2;attribute vec3 p3;attribute vec3 p4;attribute vec3 p5;attribute vec3 p6;attribute vec3 p7;attribute vec4 rnd;
+uniform float uMorph,uTime,uSize,uPixel,uMouseOn,uSwirl,uDim;uniform vec3 uMouse;
+uniform vec3 uC0,uC1,uC2,uC3,uC4,uC5,uC6,uC7;
+varying vec3 vColor;varying float vAlpha;
+float W(float m,float i){return clamp(1.0-abs(m-i),0.0,1.0);}
+void main(){
+  float s=sin(fract(uMorph)*3.14159);
+  float m=clamp(uMorph+(rnd.x-0.5)*0.7*s,0.0,7.0);
+  float w0=W(m,0.),w1=W(m,1.),w2=W(m,2.),w3=W(m,3.),w4=W(m,4.),w5=W(m,5.),w6=W(m,6.),w7=W(m,7.);
+  vec3 pos=position*w0+p1*w1+p2*w2+p3*w3+p4*w4+p5*w5+p6*w6+p7*w7;
+  float mid=sin(fract(m)*3.14159);
+  float t=uTime;
+  vec3 drift=vec3(sin(pos.y*1.7+t*.6+rnd.y*6.28),sin(pos.z*1.9+t*.5+rnd.z*6.28),sin(pos.x*1.5+t*.7+rnd.w*6.28));
+  pos+=drift*(0.02+0.28*w0+1.1*mid);
+  float a=uSwirl*(0.4+rnd.y)*(0.6+0.4*length(pos.xz));
+  pos.xz=mat2(cos(a),-sin(a),sin(a),cos(a))*pos.xz;
+  vec4 world=modelMatrix*vec4(pos,1.0);
+  vec2 d=world.xy-uMouse.xy;float dl=length(d);float f=smoothstep(1.4,0.0,dl)*uMouseOn;
+  world.xy+=d/(dl+0.001)*f*0.55;world.z+=f*0.4;
+  vec4 mv=viewMatrix*world;
+  gl_Position=projectionMatrix*mv;
+  gl_PointSize=uSize*uPixel*(0.4+rnd.w*0.9)*(1.0+mid*0.5)/(-mv.z);
+  vec3 col=uC0*w0+uC1*w1+uC2*w2+uC3*w3+uC4*w4+uC5*w5+uC6*w6+uC7*w7;
+  col=mix(col,vec3(1.0),pow(rnd.y,8.0)*0.7+f*0.4);
+  vColor=col;
+  vAlpha=(0.28+0.6*rnd.z+0.3*w0)*uDim;
+}`;
+const fs=`
+precision mediump float;varying vec3 vColor;varying float vAlpha;
+void main(){vec2 c=gl_PointCoord-0.5;float d=length(c);if(d>0.5)discard;float a=smoothstep(0.5,0.05,d);gl_FragColor=vec4(vColor,a*a*vAlpha);}`;
+const mat=new THREE.ShaderMaterial({uniforms,vertexShader:vs,fragmentShader:fs,transparent:true,depthWrite:false,blending:THREE.AdditiveBlending});
+const points=new THREE.Points(geo,mat);
+const group=new THREE.Group();group.add(points);scene.add(group);
+
+function resize(){
+  const w=window.innerWidth,h=window.innerHeight;
+  renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();
+  const wide=w>900;
+  group.userData.baseX=wide?Math.min(2.6, 1.1+(w/h-1)*1.6):0;
+  group.userData.baseY=wide?0:(w<560?0.9:0.4);
+  group.scale.setScalar(wide?1:(w<560?0.72:0.85));
+}
+window.addEventListener("resize",resize);resize();
+
+// pointer
+const ndc=new THREE.Vector2(0,0);let pointerActive=false;
+window.addEventListener("pointermove",e=>{ndc.x=e.clientX/innerWidth*2-1;ndc.y=-(e.clientY/innerHeight)*2+1;pointerActive=e.pointerType==="mouse";},{passive:true});
+document.addEventListener("pointerleave",()=>pointerActive=false);
+const tmp=new THREE.Vector3(),dir=new THREE.Vector3();
+
+// particle behavior driven by the go / pivot / stop simulator
+let mode=null, timeScale=1, swirl=0, swirlTarget=0, pivotRot=0, pivotTarget=0, dimTarget=1;
+window.__pm=function(v){ if(v==="pivot"){pivotTarget+=Math.PI/2;mode=null;} else mode=v||null; };
+
+const clock=new THREE.Clock();let time=0;
+function frame(){
+  const dt=Math.min(clock.getDelta(),0.05);
+  targetMorph=scrollMorph();
+  morph+=(targetMorph-morph)*(reduce?1:Math.min(1,dt*4.5));
+  updateChrome(morph);
+  const em=Math.round(morph)===4?mode:null;
+  const wantScale=em==="stop"?0:(em==="go"?3:1)*(reduce?.15:1);
+  timeScale+=(wantScale-timeScale)*Math.min(1,dt*4);
+  time+=dt*timeScale;
+  swirlTarget=em==="go"?swirlTarget+dt*1.6:swirlTarget;
+  swirl+=(swirlTarget-swirl)*Math.min(1,dt*3);
+  dimTarget=em==="stop"?0.45:1;
+  uniforms.uDim.value+=(dimTarget-uniforms.uDim.value)*Math.min(1,dt*4);
+  pivotRot+=(pivotTarget-pivotRot)*Math.min(1,dt*3.2);
+  uniforms.uMorph.value=morph;uniforms.uTime.value=time;uniforms.uSwirl.value=swirl;
+
+  const auto=reduce?0:time*0.12;
+  group.rotation.y=auto+pivotRot+ndc.x*0.25;
+  group.rotation.x=-ndc.y*0.15+(morph>2.5&&morph<4.5?0.25:0.08);
+  group.position.x+=((group.userData.baseX||0)-group.position.x)*0.08;
+  group.position.y+=((group.userData.baseY||0)-group.position.y)*0.08;
+
+  if(pointerActive){tmp.set(ndc.x,ndc.y,0.5).unproject(camera);dir.copy(tmp).sub(camera.position).normalize();const dist=-camera.position.z/dir.z;uniforms.uMouse.value.copy(camera.position).addScaledVector(dir,dist);}
+  uniforms.uMouseOn.value+=((pointerActive?1:0)-uniforms.uMouseOn.value)*0.1;
+
+  renderer.render(scene,camera);
+  requestAnimationFrame(frame);
+}
+frame();
+})();
+</script>
+
+</body>
+</html>
